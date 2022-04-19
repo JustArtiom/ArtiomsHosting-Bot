@@ -16,40 +16,40 @@
     },
 
     "logs":{
-        "dms": "955439272201175060"
+        "dms": ""
     },
 
     "channelID": {
-        "legal":"955441462517039104",
-        "errorLog":"955439385791303691",
-        "welcome":"954696639279398932",
-        "bye":"954696854690463754",
-        "abuse": "955924261040705548",
-        "ticketChannel": "956281038982770729",
-        "nodeStatus": "955439629480394772",
-        "suggestions": "954700474769113088",
-        "analyse": "965560681896226847"
+        "legal":"",
+        "errorLog":"",
+        "welcome":"",
+        "bye":"",
+        "abuse": "",
+        "ticketChannel": "",
+        "nodeStatus": "",
+        "suggestions": "",
+        "analyse": ""
     },
 
     "voiceID": {
-        "members": "956748150704570489",
-        "clients": "956843876482699264",
-        "servers": "956748529341181952"
+        "members": "",
+        "clients": "",
+        "servers": ""
     },
     "parentID": {
-        "createAccount": "955531456321552454",
-        "ticketParent": "956287072614891610"
+        "createAccount": "",
+        "ticketParent": ""
     },
     "roleID": {
-        "staff": "956287837664313424",
-        "member": "955917304686846002",
-        "betatester": "956704611627053076",
-        "client": "956713266351071332",
-        "administrator": "956669123826429973"
+        "staff": "",
+        "member": "",
+        "betatester": "",
+        "client": "",
+        "administrator": ""
     },
 
     "fastify": {
-        "port": 1069
+        "port": 69
     },
     
     "bot":{
@@ -59,7 +59,7 @@
 
     "pterodactyl": {
         "myIp": "ur ip",
-        "host": "https://panel.artiom.host",
+        "host": "https://example.com",
         "adminApiKey": "",
         "clientAPI":""
     },
