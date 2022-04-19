@@ -1,0 +1,71 @@
+{
+    "settings": {
+        "maintenance": false,
+        "nodeStatus": true,
+        "McScript": true,
+        "autoLeave": true,
+        "consoleSave": false,
+
+        "nodeStatusDelay": 15,
+        "vcUpdateInterval": 60,
+
+        "guildID": "954683505139408896",
+        "admin": ["918137699842555964"],
+
+        "statusOnMaintenance": "On Maintenance mode"
+    },
+
+    "logs":{
+        "dms": "955439272201175060"
+    },
+
+    "channelID": {
+        "legal":"955441462517039104",
+        "errorLog":"955439385791303691",
+        "welcome":"954696639279398932",
+        "bye":"954696854690463754",
+        "abuse": "955924261040705548",
+        "ticketChannel": "956281038982770729",
+        "nodeStatus": "955439629480394772",
+        "suggestions": "954700474769113088",
+        "analyse": "965560681896226847"
+    },
+
+    "voiceID": {
+        "members": "956748150704570489",
+        "clients": "956843876482699264",
+        "servers": "956748529341181952"
+    },
+    "parentID": {
+        "createAccount": "955531456321552454",
+        "ticketParent": "956287072614891610"
+    },
+    "roleID": {
+        "staff": "956287837664313424",
+        "member": "955917304686846002",
+        "betatester": "956704611627053076",
+        "client": "956713266351071332",
+        "administrator": "956669123826429973"
+    },
+
+    "fastify": {
+        "port": 1069
+    },
+    
+    "bot":{
+        "token": "",
+        "prefix": "ah!"
+    },
+
+    "pterodactyl": {
+        "myIp": "ur ip",
+        "host": "https://panel.artiom.host",
+        "adminApiKey": "",
+        "clientAPI":""
+    },
+    "nginxPM": {
+        "host": "",
+        "email": "",
+        "pass": ""
+    }
+}
