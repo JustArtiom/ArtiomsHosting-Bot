@@ -1,8 +1,7 @@
 # ArtiomsHosting-Bot
 
-i have no idea how this read.md file works :)
+1. Run `npm i` to install dependencies
+2. config the `config.json` file :)
 
-just run: `npm i`
-and youre done with installing dependencies... 
-
-next just configure the .json file :) ez.
+ure done :D
+*i hope
