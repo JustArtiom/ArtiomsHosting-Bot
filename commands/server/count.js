@@ -16,7 +16,7 @@ module.exports = async (client, message, args) => {
             new Discord.MessageEmbed()
             .setTitle(`${User.user.username}'s Server Count:`)
             .setColor(`#677bf9`)
-            .setDescription(`You used \`${serverCount.get(message.author.id).used}/${serverCount.get(message.author.id).have}\` servers.`)
+            .setDescription(`You used \`${serverCount.get(User.id).used}/${serverCount.get(User.id).have}\` servers.`)
         ]
     });
 }
