@@ -1,0 +1,95 @@
+{
+    "settings": {
+        "maintenance": false,
+        "nodeStatus": true,
+        "McScript": true,
+        "autoLeave": true,
+        "consoleSave": false,
+        "fastify": false,
+
+        "nodeStatusDelay": 15,
+        "vcUpdateInterval": 60,
+
+        "guildID": "",
+        "admin": [""],
+        "avoidServerPorts": [], 
+
+        "statusOnMaintenance": "On Maintenance mode",
+
+        "interactions": {
+            "createTicket": true,
+            "developer": false,
+            "staff": false
+        },
+
+        "minimumaccage": "69 years",
+
+        "antiraid": {
+            "maxmentions": 69,
+            "timeoutfor": 69696969
+        }
+    },
+
+    "logs":{
+        "dms": ""
+    },
+
+    "channelID": {
+        "legal":"",
+        "errorLog":"",
+        "welcome":"",
+        "bye":"",
+        "abuse": "",
+        "interactionsChannel": "",
+        "nodeStatus": "",
+        "suggestions": "",
+        "analyse": "",
+        "github": "",
+        "altDetection": "",
+        "raidmentions": ""
+    },
+
+    "voiceID": {
+        "members": "",
+        "clients": "",
+        "servers": ""
+    },
+    "parentID": {
+        "createAccount": "",
+        "ticketParent": "",
+        "applyDeveloper": "",
+        "applyStaff": ""
+    },
+    "roleID": {
+        "staff": "",
+        "member": "",
+        "betatester": "",
+        "client": "",
+        "administrator": ""
+    },
+
+    "fastify": {
+        "port": 1069
+    },
+
+    "node": {
+        "one": "ur node id here"
+    },
+
+    "bot":{
+        "token": "Your bot token here",
+        "prefix": "prefix (with lowercase only)"
+    },
+
+    "pterodactyl": {
+        "myIp": "ur ip",
+        "host": "https://panel.artiom.host",
+        "adminApiKey": "application api key",
+        "clientAPI":"client admin api key"
+    },
+    "nginxPM": {
+        "host": "https://NginxProxyManagerHost.com",
+        "email": "uremail",
+        "pass": "urpassword"
+    }
+}
