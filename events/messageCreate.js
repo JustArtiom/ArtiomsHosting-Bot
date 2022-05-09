@@ -1,7 +1,8 @@
 const config = require("../config.json")
 const wait = require('node:timers/promises').setTimeout;
 module.exports = async (client, message) => {
-    if(message.mentions.users.size >= config.settings.antiraid.mentions){
+    if(message.mentions.users.size >= config.settings.antiraid.maxmentions){
+        console.log('yesss')
         message.member.timeout(config.settings.antiraid.timeoutfor).catch(err => {})
         client.channels.cache.get(config.channelID.raidmentions).send(`Message from: ${message.author.tag} (${message.author.id})\nMessage Content: ${message.content}`)
         message.reply(`Ure sus to me, can u stay shut untill my staff will inpect you :)?`)
