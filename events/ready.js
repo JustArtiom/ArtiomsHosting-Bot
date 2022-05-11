@@ -5,6 +5,7 @@ const fs = require('fs');
 const Discord = require('discord.js')
 let idkwhatisthis = false
 module.exports = async (client) => {
+    client.channels.cache.get(config.channelID.botBooted).send(`<@918137699842555964> Bot Started ... ${Date.now()}`)
     console.log(chalk.hex('#6b7dfb')(`
     
         _         _   _                     _   _           _   _

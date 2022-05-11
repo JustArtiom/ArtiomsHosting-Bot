@@ -44,15 +44,16 @@ module.exports = (client) => {
             var wtl = Math.floor(Math.random() * welcometext.length);
 
             if (Date.now() - member.user.createdAt < ms(config.settings.minimumaccage)) {
+                await member.send(`You seem to be an alt, thats why i have been kicked you :)\nIf you want to appeal for this, add me: \`Artiom#0001\``).catch(err => {})
                 member.kick().catch(err => {client.channels.cache.get(config.channelID.altDetection).send(`ERROR KICKING: ${member.user}`)})
                 logChannel.send(`${member.user}, you are kinda sus to me -.-  you have been kicked`)
                 client.channels.cache.get(config.channelID.altDetection).send({embeds:[
                     new Discord.MessageEmbed()
                     .setTitle(`Sus account detected!`)
-                    .setDescription(`Username: ${member.user.username}\n`
-                    +`ID: ${member.user.id}\n`
-                    +`Account Age: ${member?.user?.createdTimestamp} (${require('pretty-ms')(Date.now() - member.user?.createdAt ?? 0)})\n`
-                    +`Invited by: ${inviter?.tag} (${inviter?.id})`
+                    .setDescription(`**Username:** ${member.user.username}\n`
+                    +`**ID:** ${member.user.id}\n`
+                    +`**Account Age:** ${member?.user?.createdTimestamp} (${require('pretty-ms')(Date.now() - member.user?.createdAt ?? 0)})\n`
+                    +`**Invited by:** ${inviter?.tag} (${inviter?.id})`
                     )
                 ]})
                 return

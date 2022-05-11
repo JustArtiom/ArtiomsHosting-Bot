@@ -1,6 +1,7 @@
 const axios = require('axios');
 const { getKey } = require("./getKey")
 const config = require('../config.json')
+const chalk = require('chalk')
 
 const proxyDomain = async (domain, ip, port) => {
     try {
