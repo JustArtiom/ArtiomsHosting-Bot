@@ -44,9 +44,9 @@ module.exports = (client) => {
             var wtl = Math.floor(Math.random() * welcometext.length);
 
             if (Date.now() - member.user.createdAt < ms(config.settings.minimumaccage)) {
-                await member.send(`You seem to be an alt, thats why i have been kicked you :)\nIf you want to appeal for this, add me: \`Artiom#0001\``).catch(err => {})
-                member.kick().catch(err => {client.channels.cache.get(config.channelID.altDetection).send(`ERROR KICKING: ${member.user}`)})
-                logChannel.send(`${member.user}, you are kinda sus to me -.-  you have been kicked`)
+                await member.send(`You seem to be an alt, thats why i have banned you :)\nIf you want to appeal for this, add me: \`Artiom#0001\`\nor contact via email: \`artiomshosting@gmail.com\``).catch(err => {})
+                member.ban().catch(err => {client.channels.cache.get(config.channelID.altDetection).send(`ERROR KICKING: ${member.user}`)})
+                logChannel.send(`${member.user}, you are kinda sus to me -.- get outta here`)
                 client.channels.cache.get(config.channelID.altDetection).send({embeds:[
                     new Discord.MessageEmbed()
                     .setTitle(`Sus account detected!`)
