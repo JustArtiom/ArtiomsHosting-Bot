@@ -106,7 +106,7 @@ module.exports = async (client, message, args) => {
                                                     .addComponents(
                                                         new Discord.MessageButton()
                                                         .setLabel('🔗 Link')
-                                                        .setURL(`https://panel.artiom.host/server/${server}`)
+                                                        .setURL(`https://panel.artiom.host/server/${server}`) //bot didn't update the link
                                                         .setStyle('LINK'),
                                                     )
                                                 ]})
