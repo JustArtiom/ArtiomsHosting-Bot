@@ -2,14 +2,15 @@ const config = require("../config.json")
 const wait = require('node:timers/promises').setTimeout;
 module.exports = async (client, message) => {
     if(message.mentions.users.size >= config.settings.antiraid.maxmentions){
+        if(message.author.id === client.user.id) return
         message.member.timeout(config.settings.antiraid.timeoutfor).catch(err => {})
-        client.channels.cache.get(config.channelID.raidmentions).send(`Message from: ${message.author.tag} (${message.author.id})\nMessage Content: ${message.content}`)
+        client.channels.cache.get(config.channelID.raidmentions).send(`Message from: ${message.author.tag} (${message.author.id}), in channel: ${message.channel} (${message.channel.id}) \nMessage Content: ${message.content}`)
         message.reply(`Ure sus to me, can u stay shut untill my staff will inpect you :)?`)
         return
     }
 
     if(message.author?.bot) return
-    if(message.channel.type == "DM") return client.channels.cache.get(config.logs.dms).send(`${message.author.tag} (${message.author.id}): ${message.content}`)
+    if(message.channel.type == "DM") return client.channels.cache.get(config.channelID.dms).send(`${message.author.tag} (${message.author.id}): ${message.content}`)
     
     if(config.settings.admin.includes(message.author.id) && message.content.toLowerCase().startsWith('eval')) return client.commands.get('eval').run(client, message, message.content.split(/ +/))
 

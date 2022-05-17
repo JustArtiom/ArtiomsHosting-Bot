@@ -3,8 +3,9 @@ module.exports = {
     name: "snipe",
     aliases: [''], 
     async run(client, message, args){
+
         let snipe = client.snipes.get(message.channel.id)
-        if (!snipe) return message.channel.send(`:x: There is nothing to snipe`)
+        if (!snipe) return message.channel.send(`:x: There is nothing to snipe in this channel`)
 
         snipe = [...snipe.values()]
         snipe.reverse();
@@ -19,16 +20,16 @@ module.exports = {
 
         let snipedMessage = snipe[number];
 
+        const embed = new Discord.MessageEmbed()
+        embed.setTitle(`Sniping...`)
+        embed.setColor(`BLUE`)
+        snipedMessage.messageContent ? embed.addField(`Message Content`, `${snipedMessage.messageContent}`) : null
+        snipedMessage.messageImages?.size !== 0 ? embed.setImage(snipedMessage.messageImages?.first()?.proxyURL) : null
+        embed.setFooter({ text: `${snipedMessage.member.user.tag} (${snipedMessage.member.user.id})`, iconURL: snipedMessage?.member?.user?.displayAvatarURL()});
+        embed.setTimestamp()
+
         message.channel.send({
-            embeds: [
-                new Discord.MessageEmbed()
-                .setTitle(`Message ${snipedMessage.action} by ${snipedMessage.member.user.tag}`)
-                .setDescription(snipedMessage.message ? "`" + snipedMessage.message + "`" : "ㅤ")
-                .setImage(snipedMessage.image)
-                .setFooter({text: `${number + 1}/${snipe.length}  -  Edited at`})
-                .setTimestamp(snipedMessage.timestamp)
-                .setColor("BLUE")
-            ]
-        });
+            embeds: [embed]
+        })
     } 
 }
