@@ -66,7 +66,7 @@ module.exports = async (client) => {
                         + `User id: \`${user?.attributes.id}\`\n`
                         + `Username: \`${user?.attributes.username}\`\n`
                         + `Email: \`${user?.attributes.email}\`\n`
-                        + `Discord id: \`${userData.all().find(x => JSON.parse(x.data).consoleID === user?.attributes.id)}\``
+                        + `Discord id: \`${userData.all().find(x => JSON.parse(x.data).consoleID === user?.attributes.id)?.ID}\``
                         )
                     ]
                 })
