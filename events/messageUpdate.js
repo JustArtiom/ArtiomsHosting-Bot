@@ -19,7 +19,7 @@ module.exports = (client, message, newMessage) => {
     const embed = new Discord.MessageEmbed()
     embed.setTitle('✏️ Edited Message')
     embed.setColor(`BLUE`)
-    message.content ? embed.addField(`Message Content`, message.content.includes('```') ? `${message.content}` : `\`\`\`\n${message.content}\`\`\``)) : null
+    message.content ? embed.addField(`Message Content`, message.content.includes('```') ? `${message.content}` : `\`\`\`\n${message.content}\`\`\``) : null
     message.attachments?.size !== 0 ? embed.setImage(message.attachments?.first()?.proxyURL) : null
     message.attachments?.size !== 0 ? content = message.attachments?.map(x => x?.proxyURL).join("\n") : content = null
     embed.setFooter({ text: `${message.member.user.tag} (${message.member.user.id}) \nin #${message.channel.name}`, iconURL: message?.member?.user?.displayAvatarURL()});
