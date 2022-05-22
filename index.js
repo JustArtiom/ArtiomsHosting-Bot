@@ -8,6 +8,7 @@ console.log("index runing . . .")
 client.snipes = new Discord.Collection();
 client.commands = new Discord.Collection();
 client.events = new Discord.Collection();
+client.auth = new Discord.Collection();
 
 global.userData = new db.table("userData");
 global.serverCount = new db.table("FreeServerCount");

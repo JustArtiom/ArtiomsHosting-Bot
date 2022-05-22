@@ -28,7 +28,7 @@ module.exports = (userID, serverName, location) => {
             "SERVER_PASSWORD": `${getPassword()}`
         },
         "feature_limits": {
-            "databases": 0,
+            "databases": 2,
             "allocations": 1,
             "backups": 0
         },

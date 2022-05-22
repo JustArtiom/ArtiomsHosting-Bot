@@ -11,8 +11,18 @@ fastify.register(require('fastify-rate-limit'), {
 })
 
 module.exports = async (client) => {
-    fastify.get('/status', async (request, reply) => {
 
+    fastify.get('/auth/:userid/:token', async (req, rep) => {
+        let token = client.auth.get(req.params.userid);
+        if(token === req.params.token){
+            rep.send('You had been sucessfully complete your auth, have fun on ArtiomsHosting')
+        }else{
+            rep.send('404 - Invalid user or token BAKA')
+        }
+    })
+
+
+    fastify.get('/status', async (request, reply) => {
         let memdata = await si.mem();
         let diskdata = await si.fsSize();
         let cl = await si.currentLoad();

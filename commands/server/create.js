@@ -23,9 +23,9 @@ module.exports = async (client, message, args) => {
             .setFooter({text: `example: AH!server create NodeJS Discord Bot`})
             .addField(`<:arrow_blue:957264701409087558>**__Discord Bots__**:   `, `>>> aio *(all in one)*\nNodeJS\nPython\nJava\nGo\nRedBot`, true)
             .addField(`<:arrow_blue:957264701409087558>**__Databases__**:   `, `>>> MongoDB\nRedis5\nRedis6\nMariaDB\nPostGres`, true)
-            .addField(`<:arrow_blue:957264701409087558>**__Softwares__**:   `, `>>> CodeServer\nHaste\nShareX`, true)
+            .addField(`<:arrow_blue:957264701409087558>**__Softwares__**:   `, `>>> CodeServer\nHaste\nShareX\nass`, true)
             .addField(`<:arrow_blue:957264701409087558>**__Storage__**:   `, `>>> S3`, true)
-            .addField(`<:arrow_blue:957264701409087558>**__Web-Hosting:__**   `, `>>> Nginx`, true)
+            .addField(`<:arrow_blue:957264701409087558>**__Web-Hosting:__**   `, `>>> Nginx\nphp`, true)
 
         message.channel.send({
             content: `> :x: What type of server you want me to create?`,

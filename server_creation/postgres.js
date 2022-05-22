@@ -30,7 +30,7 @@ module.exports = (userID, serverName, location) => {
             "PGDATABASE": `pterodacty`
         },
         "feature_limits": {
-            "databases": 0,
+            "databases": 2,
             "allocations": 1,
             "backups": 0
         },

@@ -2,10 +2,10 @@ module.exports = (userID, serverName, location) => {
     return {
         "name": serverName,
         "user": userID,
-        "nest": 8,
-        "egg": 18,
-        "docker_image": "ghcr.io/parkervcp/yolks:nodejs_17",
-        "startup": 'if [[ -d .git ]] && [[ {{AUTO_UPDATE}} == "1" ]]; then git pull; fi; if [[ ! -z ${NODE_PACKAGES} ]]; then /usr/local/bin/npm install ${NODE_PACKAGES}; fi; if [[ ! -z ${UNNODE_PACKAGES} ]]; then /usr/local/bin/npm uninstall ${UNNODE_PACKAGES}; fi; if [ -f /home/container/package.json ]; then /usr/local/bin/npm install; fi; /usr/local/bin/node /home/container/{{BOT_JS_FILE}}',
+        "nest": 10,
+        "egg": 41,
+        "docker_image": "ghcr.io/software-noob/pterodactyl-images:nodejs_16",
+        "startup": "cd ass && npm start",
         "limits": {
             "memory": 1024,
             "swap": 0,
@@ -14,9 +14,15 @@ module.exports = (userID, serverName, location) => {
             "cpu": 0
         },
         "environment": {
-            "USER_UPLOAD": 0,
-            "AUTO_UPDATE": 0,
-            "BOT_JS_FILE": "index.js"
+            "A_DOMAIN": "{HOST_AND_PORT}",
+            "RESOURCE_ID_TYPE": "random",
+            "DATA_ENGINE": "@tycrek/papito",
+            "RESOURCE_ID_SIZE": "8",
+            "MAX_UPLOAD": "100",
+            "SPACE_REPLACE": "_",
+            "MEDIA_STRICT": 1,
+            "FRONTEND_NAME": "ass-x",
+            "VIEW_DIRECT": 0
         },
         "feature_limits": {
             "databases": 2,

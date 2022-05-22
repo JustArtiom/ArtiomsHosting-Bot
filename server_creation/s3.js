@@ -17,7 +17,7 @@ module.exports = (userID, serverName, location) => {
             "STARTUP_TYPE": "normal"
         },
         "feature_limits": {
-            "databases": 0,
+            "databases": 2,
             "allocations": 2,
             "backups": 0
         },
