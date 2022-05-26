@@ -14,7 +14,7 @@ module.exports = (userID, serverName, location) => {
             "cpu": 0
         },
         "environment": {
-            "STARTUP_CMD": "echo hi"
+            "STARTUP_CMD": "php index.php"
         },
         "feature_limits": {
             "databases": 2,
