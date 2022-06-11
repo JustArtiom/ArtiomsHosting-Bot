@@ -1,12 +1,15 @@
 {
   "dependencies": {
+    "@fastify/cors": "^7.0.0",
+    "@fastify/rate-limit": "^6.0.1",
     "axios": "^0.26.1",
     "canvas": "^2.9.1",
     "chalk": "^2.4.2",
     "discord.js": "^13.6.0",
     "dns": "^0.2.2",
     "fastify": "^3.27.4",
-    "fastify-rate-limit": "^5.8.0",
+    "fastify-cors": "^6.1.0",
+    "fastify-rate-limit": "^5.9.0",
     "fastify-static": "^4.6.1",
     "format-duration": "^2.0.0",
     "minecraft-pinger": "^1.0.5",
