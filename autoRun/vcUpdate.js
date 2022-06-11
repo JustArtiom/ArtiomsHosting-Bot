@@ -25,7 +25,7 @@ module.exports = async (client) => {
         try{
             MembersCh.setName(`🙋 Members: ${guild.members.cache.size}`)
             ClientsCh.setName(`🎓 Clients: ${guild.members.cache.filter(x => x.roles.cache.has(config.roleID.client))?.size}`)
-            ServersCh.setName(`📊 Servers: ${nodedata.data.attributes.relationships.servers.data.length ? nodedata.data.attributes.relationships.servers.data.length : nodedata}/600`)
+            ServersCh.setName(`📊 Servers: ${nodedata.data.attributes.relationships.servers.data.length ? nodedata.data.attributes.relationships.servers.data.length : nodedata}/700`)
         }catch (err){}
     }, config.settings.vcUpdateInterval * 1000)
 
