@@ -4,105 +4,76 @@ const axios = require('axios')
 module.exports = async (client) => {
     if(!config.settings.nodeStatus) return
 
-    let node = await axios({
-        url: config.pterodactyl.host+"/api/application/nodes/" + "2" + "?include=servers",
-        method: 'GET',
-        followRedirect: true,
-        maxRedirects: 5,
-        headers: {
-            'Authorization': 'Bearer ' + config.pterodactyl.adminApiKey,
-            'Content-Type': 'application/json',
-            'Accept': 'Application/vnd.pterodactyl.v1+json',
-        }
-    }).catch(() => {})
+    async function showStats() {
+        let panel = true;
+        let nodestatus = [];
 
-    console.log('node data collected')
+        await Promise.all(config.nodes.map(async node => {
 
-    let wingscreds = await axios({
-        url: config.pterodactyl.host+"/api/application/nodes/" + "2" + "/configuration",
-        method: 'GET',
-        followRedirect: true,
-        maxRedirects: 5,
-        headers: {
-            'Authorization': 'Bearer ' + config.pterodactyl.adminApiKey,
-            'Content-Type': 'application/json',
-            'Accept': 'Application/vnd.pterodactyl.v1+json',
-        }
-    }).catch(() => {})
+            let wingscreds = await axios({
+                url: config.pterodactyl.host+"/api/application/nodes/" + node.id + "/configuration",
+                method: 'GET',
+                followRedirect: true,
+                maxRedirects: 5,
+                headers: {
+                    'Authorization': 'Bearer ' + config.pterodactyl.adminApiKey,
+                    'Content-Type': 'application/json',
+                    'Accept': 'Application/vnd.pterodactyl.v1+json',
+                }
+            }).catch(() => {});
 
-    console.log('wings creds collected')
+            if(!wingscreds) return panel = false
 
-    let wingsstatus = await axios({
-        url: 'http://localhost:80/api/system',
-        method: 'GET',
-        headers: {
-            'Authorization': 'Bearer ' + wingscreds.data.token,
-            'Content-Type': 'application/json',
-            'Accept': '*/*',
-        }
-    })
-    console.log('status done:')
-    console.log(wingsstatus)
+            let servers = (await axios({
+                url: config.pterodactyl.host+"/api/application/nodes/" + node.id + "?include=servers",
+                method: 'GET',
+                followRedirect: true,
+                maxRedirects: 5,
+                headers: {
+                    'Authorization': 'Bearer ' + config.pterodactyl.adminApiKey,
+                    'Content-Type': 'application/json',
+                    'Accept': 'Application/vnd.pterodactyl.v1+json',
+                }
+            }).catch(() => {}))
 
-    // setInterval(async() => {
-    //     let channel = client.channels.cache.get(config.channelID.nodeStatus)
-    //     let msg = (await channel.messages.fetch({limit: 10})).filter(m => m.author.id === client.user.id).last()
+            if(!servers) return panel = false
 
-    //     let panel = ''
-    //     let node1 = ''
-    //     let lavalink = ''
-        
-    //     await axios({
-    //         url: config.pterodactyl.host+"/api/application/nodes/" + config.node.one + "?include=servers,location,allocations",
-    //         method: 'GET',
-    //         followRedirect: true,
-    //         maxRedirects: 5,
-    //         headers: {
-    //             'Authorization': 'Bearer ' + config.pterodactyl.adminApiKey,
-    //             'Content-Type': 'application/json',
-    //             'Accept': 'Application/vnd.pterodactyl.v1+json',
-    //         }
-    //     }).then(async node => {
-    //         panel = "🟢 Online"
+            let wingsstatus = await axios({
+                url: servers.data.attributes.scheme + '://' + servers.data.attributes.fqdn + ':' + servers.data.attributes.daemon_listen + '/api/system',
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + wingscreds.data.token,
+                    'Content-Type': 'application/json',
+                    'Accept': '*/*',
+                }
+            }).catch(() => {});
 
-    //         await axios({
-    //             url: config.pterodactyl.host + '/api/client/servers/' + "f9dcbdc1" + "/resources",
-    //             method: 'GET',
-    //             followRedirect: true,
-    //             maxRedirects: 5,
-    //             headers: {
-    //                 'Authorization': 'Bearer ' + config.pterodactyl.clientAPI,
-    //                 'Content-Type': 'application/json',
-    //                 'Accept': 'Application/vnd.pterodactyl.v1+json',
-    //             }
-    //         }).then(data => {
-    //             node1 = `🟢 Online (${node.data.attributes.relationships.servers.data.length}/700)`
-    //             lavalink = `${data.data.attributes.current_state === 'running' ? `🟢 Online`: data.data.attributes.current_state === 'offline' ? `🔴 Offline` : `🔄 ${data.data.attributes.current_state}`}`
-    //         }).catch(() => {
-    //             lavalink = `🔴 Offline`
-    //             node1 = `🔴 Offline (${node.data.attributes.relationships.servers.data.length}/700)`
-    //         })
-            
-    //     }).catch(err => {
-    //         panel = '🔴 Offline'
-    //         node1 = '🔴 Offline'
-    //     })
-        
+            nodestatus.push({name: node.name, status: wingsstatus?.data ? true : false, servers: servers?.data?.attributes?.relationships?.servers?.data?.length, serverLimit: node.serverLimit})
+        }));
 
-    //     let embed = [
-    //         new Discord.MessageEmbed()
-    //         .setTitle(`ArtiomsHosting Node Status:`)
-    //         .setDescription(`**Node Status:**\nNode 1: ${node1}\n\nPanel: ${panel}\nLavalink: ${lavalink}\n\n*updating every \`${config.settings.nodeStatusDelay} seconds\`*`)
-    //         .setColor(`#677bf9`)
-    //         .setTimestamp()
-    //         .setFooter({text: `Last Time Updated`})
-    //     ]
+        let channel = client.channels.cache.get(config.channelID.nodeStatus)
+        let msg = (await channel.messages.fetch({limit: 10})).filter(m => m.author.id === client.user.id).last()
 
-    //     if(!msg) {
-    //         channel.send({embeds: embed})
-    //     }else {
-    //         msg.edit({embeds: embed})
-    //     }
+        let embed = new Discord.MessageEmbed()
+        .setTitle('ArtiomsHosting Node Status:')
+        .setColor(`#677bf9`)
+        .setDescription(``
+            +`**Node Status:**\n`
+            +`Node 1: ${nodestatus.find(x => x.name === 'Node 1')?.status ? '💚 Online' : '❤️ Offline'} (${nodestatus.find(x => x.name === 'Node 1')?.servers}/${nodestatus.find(x => x.name === 'Node 1')?.serverLimit})\n`
+            +`Node 2: ${nodestatus.find(x => x.name === 'Node 2')?.status ? '💚 Online' : '❤️ Offline'} (${nodestatus.find(x => x.name === 'Node 2')?.servers}/${nodestatus.find(x => x.name === 'Node 2')?.serverLimit})\n`
+            +`\n`
+            +`Panel: ${panel ? '💚 Online' : '❤️ Offline'}\n`
+            +`\n`
+            +`*updating every \`${config.settings.nodeStatusDelay} seconds\`*`
+        )
+        .setTimestamp()
+        .setFooter({text: `Last Time Updated`})
 
-    // }, config.settings.nodeStatusDelay * 1000)
+        if(!msg) channel.send({embeds: [embed]})
+        else msg.edit({embeds: [embed]})
+    }
+    setInterval(() => {
+        showStats()
+    }, config.settings.nodeStatusDelay * 1000)
+    showStats()
 }

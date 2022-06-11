@@ -12,7 +12,7 @@ module.exports = async (client) => {
     setInterval(async() => {
         let nodedata 
         nodedata = await axios({
-            url: config.pterodactyl.host+"/api/application/nodes/" + config.node.one + "?include=servers,location,allocations",
+            url: config.pterodactyl.host+"/api/application/nodes/" + "2" + "?include=servers,location,allocations",
             method: 'GET',
             followRedirect: true,
             maxRedirects: 5,
