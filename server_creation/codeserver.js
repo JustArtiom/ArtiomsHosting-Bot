@@ -29,11 +29,11 @@ module.exports = (userID, serverName, location) => {
         },
         "feature_limits": {
             "databases": 2,
-            "allocations": 2,
+            "allocations": 1,
             "backups": 0
         },
         "deploy": {
-            "locations": [location],
+            "locations": location,
             "dedicated_ip": false,
             "port_range": []
         },

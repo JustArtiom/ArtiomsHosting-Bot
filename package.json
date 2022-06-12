@@ -16,6 +16,7 @@
     "moment": "^2.29.1",
     "nodemailer": "^6.7.3",
     "os": "^0.1.2",
+    "ping-tcp-js": "^1.4.1",
     "pretty-ms": "^7.0.1",
     "prettysize": "^2.0.0",
     "quick.db": "^7.1.3",

@@ -1,6 +1,7 @@
-const config = require('../config.json')
-const Discord = require('discord.js')
-const axios = require('axios')
+const config = require('../config.json');
+const Discord = require('discord.js');
+const axios = require('axios');
+const { ping } = require('ping-tcp-js');
 module.exports = async (client) => {
     if(!config.settings.nodeStatus) return
 
@@ -48,21 +49,35 @@ module.exports = async (client) => {
                 }
             }).catch(() => {});
 
-            nodestatus.push({name: node.name, status: wingsstatus?.data ? true : false, servers: servers?.data?.attributes?.relationships?.servers?.data?.length, serverLimit: node.serverLimit})
+            let latency = Date.now();
+            await ping(node.domain, node.port).then(() => {
+                latency = Date.now() - latency
+            }).catch(() => {
+                latency = NaN
+            })
+            
+            nodestatus.push({name: node.name, status: wingsstatus?.data ? true : false, servers: servers?.data?.attributes?.relationships?.servers?.data?.length, serverLimit: node.serverLimit, latency: latency})
         }));
 
         let channel = client.channels.cache.get(config.channelID.nodeStatus)
         let msg = (await channel.messages.fetch({limit: 10})).filter(m => m.author.id === client.user.id).last()
+    
+        let panellatency = Date.now();
+        await ping(config.pterodactyl.host.replace('https://', ''), 80).then(() => {
+            panellatency = Date.now() - panellatency
+        }).catch(() => {
+            panellatency = NaN
+        })
 
         let embed = new Discord.MessageEmbed()
         .setTitle('ArtiomsHosting Node Status:')
         .setColor(`#677bf9`)
         .setDescription(``
             +`**Node Status:**\n`
-            +`Node 1: ${nodestatus.find(x => x.name === 'Node 1')?.status ? '💚 Online' : '❤️ Offline'} (${nodestatus.find(x => x.name === 'Node 1')?.servers}/${nodestatus.find(x => x.name === 'Node 1')?.serverLimit})\n`
-            +`Node 2: ${nodestatus.find(x => x.name === 'Node 2')?.status ? '💚 Online' : '❤️ Offline'} (${nodestatus.find(x => x.name === 'Node 2')?.servers}/${nodestatus.find(x => x.name === 'Node 2')?.serverLimit})\n`
+            +`Node 1: ${nodestatus.find(x => x.name === 'Node 1')?.status ? `${config.node_emoji.online} Online` : `${config.node_emoji.offline} Offline`} (${nodestatus.find(x => x.name === 'Node 1')?.servers}/${nodestatus.find(x => x.name === 'Node 1')?.serverLimit}) [\`${nodestatus.find(x => x.name === 'Node 1').latency}ms\`]\n`
+            +`Node 2: ${nodestatus.find(x => x.name === 'Node 2')?.status ? `${config.node_emoji.online} Online` : `${config.node_emoji.offline} Offline`} (${nodestatus.find(x => x.name === 'Node 2')?.servers}/${nodestatus.find(x => x.name === 'Node 2')?.serverLimit}) [\`${nodestatus.find(x => x.name === 'Node 2').latency}ms\`]\n`
             +`\n`
-            +`Panel: ${panel ? '💚 Online' : '❤️ Offline'}\n`
+            +`Panel: ${panel ? `💚 Online` : `❤️ Offline`} [\`${panellatency}ms\`]\n`
             +`\n`
             +`*updating every \`${config.settings.nodeStatusDelay} seconds\`*`
         )

@@ -12,7 +12,7 @@ module.exports = (userID, serverName, location) => {
             "disk": 3072,
             "io": 500,
             "cpu": 0
-        },
+        },  
         "environment": {
             "USER_UPLOAD": 0,
             "AUTO_UPDATE": 0,
@@ -24,7 +24,7 @@ module.exports = (userID, serverName, location) => {
             "backups": 0
         },
         "deploy": {
-            "locations": [location],
+            "locations": location,
             "dedicated_ip": false,
             "port_range": []
         },

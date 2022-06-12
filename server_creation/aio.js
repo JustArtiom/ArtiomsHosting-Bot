@@ -1,4 +1,5 @@
 module.exports = (userID, serverName, location) => {
+    console.log(location)
     return {
         "name": serverName,
         "user": userID,
@@ -22,7 +23,7 @@ module.exports = (userID, serverName, location) => {
             "backups": 0
         },
         "deploy": {
-            "locations": [location],
+            "locations": location,
             "dedicated_ip": false,
             "port_range": []
         },
