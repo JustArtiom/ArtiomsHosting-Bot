@@ -4,11 +4,12 @@
         "nodeStatus": true,
         "McScript": true,
         "autoLeave": true,
-        "consoleSave": false,
-        "fastify": false,
+        "consoleSave": true,
+        "fastify": true,
+        "updateFromGithub": false,
 
-        "nodeStatusDelay": 15,
-        "vcUpdateInterval": 60,
+        "nodeStatusDelay": 30,
+        "vcUpdateInterval": 150,
 
         "guildID": "",
         "admin": [""],
@@ -22,19 +23,18 @@
             "staff": false
         },
 
-        "minimumaccage": "69 years",
-
+        "minimumaccage": "69 days",
+        
         "antiraid": {
             "maxmentions": 69,
-            "timeoutfor": 69696969
-        }
-    },
+            "timeoutfor": 10000000000000
+        },
 
-    "logs":{
-        "dms": ""
+        "serverCreation": ["locations ids here eg: [1, 2, 3]"]
     },
 
     "channelID": {
+        "news": "",
         "legal":"",
         "errorLog":"",
         "welcome":"",
@@ -44,9 +44,12 @@
         "nodeStatus": "",
         "suggestions": "",
         "analyse": "",
-        "github": "",
+        "github":"",
         "altDetection": "",
-        "raidmentions": ""
+        "raidmentions": "",
+        "botBooted": "",
+        "dms": "",
+        "messages_managering": ""
     },
 
     "voiceID": {
@@ -72,24 +75,43 @@
         "port": 1069
     },
 
-    "node": {
-        "one": "ur node id here"
+    "nodes": [
+        {
+            "name": "Node 1",
+            "id": 2,
+            "serverLimit": 700,
+            "domain":"n1.artiom.host",
+            "port": 80
+        },
+        {
+            "name": "Node 2",
+            "id": 3,
+            "serverLimit": 300,
+            "domain":"n2.artiom.host",
+            "port": 80
+        }
+
+    ],
+
+    "node_emoji": {
+        "online": "🟢",
+        "offline": "🟠"
     },
 
     "bot":{
-        "token": "Your bot token here",
-        "prefix": "prefix (with lowercase only)"
+        "token": "Bot Token",
+        "prefix": "Prefix to lower case"
     },
 
     "pterodactyl": {
-        "myIp": "ur ip",
-        "host": "https://panel.artiom.host",
-        "adminApiKey": "application api key",
-        "clientAPI":"client admin api key"
+        "myIp": "your house ip",
+        "host": "https://panel.something.host",
+        "adminApiKey": "Your application api key",
+        "clientAPI":"Yout client api key (built by an admin)"
     },
     "nginxPM": {
-        "host": "https://NginxProxyManagerHost.com",
-        "email": "uremail",
-        "pass": "urpassword"
+        "host": "https://Nginxproxymanager.com",
+        "email": "Yout email to login to the proxy manage",
+        "pass": "Yout password to login to the proxy manage"
     }
 }

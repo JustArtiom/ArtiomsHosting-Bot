@@ -1,5 +1,4 @@
 module.exports = (userID, serverName, location) => {
-    console.log(location)
     return {
         "name": serverName,
         "user": userID,
