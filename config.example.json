@@ -1,0 +1,117 @@
+{
+    "settings": {
+        "maintenance": false,
+        "nodeStatus": true,
+        "McScript": true,
+        "autoLeave": true,
+        "consoleSave": true,
+        "fastify": true,
+        "updateFromGithub": false,
+
+        "nodeStatusDelay": 30,
+        "vcUpdateInterval": 150,
+
+        "guildID": "",
+        "admin": [""],
+        "avoidServerPorts": [], 
+
+        "statusOnMaintenance": "On Maintenance mode",
+
+        "interactions": {
+            "createTicket": true,
+            "developer": false,
+            "staff": false
+        },
+
+        "minimumaccage": "69 days",
+        
+        "antiraid": {
+            "maxmentions": 69,
+            "timeoutfor": 10000000000000
+        },
+
+        "serverCreation": ["locations ids here eg: [1, 2, 3]"]
+    },
+
+    "channelID": {
+        "news": "",
+        "legal":"",
+        "errorLog":"",
+        "welcome":"",
+        "bye":"",
+        "abuse": "",
+        "interactionsChannel": "",
+        "nodeStatus": "",
+        "suggestions": "",
+        "analyse": "",
+        "github":"",
+        "altDetection": "",
+        "raidmentions": "",
+        "botBooted": "",
+        "dms": "",
+        "messages_managering": ""
+    },
+
+    "voiceID": {
+        "members": "",
+        "clients": "",
+        "servers": ""
+    },
+    "parentID": {
+        "createAccount": "",
+        "ticketParent": "",
+        "applyDeveloper": "",
+        "applyStaff": ""
+    },
+    "roleID": {
+        "staff": "",
+        "member": "",
+        "betatester": "",
+        "client": "",
+        "administrator": ""
+    },
+
+    "fastify": {
+        "port": 1069
+    },
+
+    "nodes": [
+        {
+            "name": "Node 1",
+            "id": 2,
+            "serverLimit": 700,
+            "domain":"n1.artiom.host",
+            "port": 80
+        },
+        {
+            "name": "Node 2",
+            "id": 3,
+            "serverLimit": 300,
+            "domain":"n2.artiom.host",
+            "port": 80
+        }
+
+    ],
+
+    "node_emoji": {
+        "online": "🟢",
+        "offline": "🟠"
+    },
+
+    "bot":{
+        "token": "Bot Token",
+        "prefix": "Prefix to lower case"
+    },
+
+    "pterodactyl": {
+        "myIp": "your house ip",
+        "host": "https://panel.something.host",
+        "adminApiKey": "Your application api key",
+        "clientAPI":"Yout client api key (built by an admin)"
+    },
+    "nginxPM": {
+        "host": "https://Nginxproxymanager.com",
+        "email": "Yout email to login to the proxy manage",
+        "pass": "Yout password to login to the proxy manage"
+    }
+}
