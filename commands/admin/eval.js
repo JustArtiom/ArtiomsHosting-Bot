@@ -47,7 +47,7 @@ module.exports = {
                     embeds:[
                         new EmbedBuilder()
                         .setTitle(`Eval by ${message.author.tag}`)
-                    	.setColor(`GREEN`)
+                    	.setColor(`Green`)
                         .setDescription(`\`\`\`js\n${evaled}\`\`\``)
                     ]
                 })
@@ -58,7 +58,7 @@ module.exports = {
                 embeds:[
                     new EmbedBuilder()
                     .setTitle(`:x: | Error`)
-                    .setColor(`RED`)
+                    .setColor(`Red`)
                     .setDescription(`${err}`)
                 ]
             })
