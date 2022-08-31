@@ -22,7 +22,7 @@ module.exports = {
 
         const embed = new EmbedBuilder()
         embed.setTitle(`Sniping...`)
-        embed.setColor(`BLUE`)
+        embed.setColor(`Blue`)
         snipedMessage.messageContent ? embed.addField({ name: `Message Content`, value:`${snipedMessage.messageContent}`) : null
         snipedMessage.messageImages?.size !== 0 ? embed.setImage(snipedMessage.messageImages?.first()?.proxyURL) : null
         embed.setFooter({ text: ${snipedMessage.member.user.tag} (${snipedMessage.member.user.id}), iconURL: snipedMessage?.member?.user?.displayAvatarURL()});
