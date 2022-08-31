@@ -47,14 +47,14 @@ module.exports = async (client, message, args) => {
         }).then(user => {
             client.users.cache.get(message.author.id).send({embeds:[
                 new EmbedBuilder()
-                .setColor(`BLUE`)
+                .setColor(`Blue`)
                 .setDescription(`New password for ArtiomsHosting: ||**${data.password}**||`)
                 .setFooter({text:`This message will autodestruct in 10 minutes`})
             ]}).then(x => {
                 message.channel.send({embeds:[
                     new EmbedBuilder()
                     .setTitle(`✅ | Password Changed Succesufuly`)
-                    .setColor(`GREEN`)
+                    .setColor(`Blue`)
                     .setDescription(`Check your [dms](https://discord.com/channels/@me/${x.channelId}) for your new password!`)
                 ]}).catch(err => {
                     message.channel.send(`${err}`)
