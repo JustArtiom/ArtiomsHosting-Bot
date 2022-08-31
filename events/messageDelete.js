@@ -1,4 +1,4 @@
-const config = require('../config.json')
+        const config = require('../config.json')
 const { EmbedBuilder } = require('discord.js')
 module.exports = (client, message) => {
     if(!message.author || message.author?.bot || message.channel.type === 'dm' || message.guild.channels.cache.get(message.channelId)?.parentId === config.parentID.createAccount) return
@@ -20,8 +20,10 @@ module.exports = (client, message) => {
 
     const embed = new EmbedBuilder()
     embed.setTitle('❌ Deleted Message')
-    embed.setColor(`BLUE`)
-    message.content ? embed.addField(`Message Content`, message.content.includes('```') ? `${message.content}` : `\`\`\`\n${message.content}\`\`\``) : null
+    embed.setColor(`Blue`)
+    message.content ? embed.addFields(
+		{ name: 'Message Content', value: message.content.includes('```') ? `${message.content}` : `\`\`\`\n${message.content}\`\`\`` },
+     ) : null
     message.attachments?.size !== 0 ? embed.setImage(message.attachments?.first()?.proxyURL) : null
     message.attachments?.size !== 0 ? content = message.attachments?.map(x => x?.proxyURL).join("\n") : content = null
     embed.setFooter({ text: `${message.member.user.tag} (${message.member.user.id}) \nin #${message.channel.name}`, iconURL: message?.member?.user?.displayAvatarURL()});
