@@ -25,15 +25,16 @@ const { EmbedBuilder } = require('discord.js');
             };
         
         
-            let category = message.guild.channels.cache.find(c => c.id === config.parentID.createAccount);
-            let channel = await message.guild.channels.create(message.author.tag, {
+           let category = message.guild.channels.cache.find(c => c.id === config.parentID.createAccount);
+let channel = await message.guild.channels.create({
+	            name: message.author.tag,
                 parent: category.id,
                 permissionOverwrites: [{
                     id: message.author.id,
-                    allow: ['VIEW_CHANNEL', 'SEND_MESSAGES', 'READ_MESSAGE_HISTORY']
+                    allow: ['ViewChannel', 'SendMessages', 'ReadMessageHistory']
                 }, {
                     id: message.guild.id,
-                    deny: ['VIEW_CHANNEL']
+                    deny: ['ViewChannel']
                 }]
             })
             message.reply(`Please check ${channel} to create your account!`)
