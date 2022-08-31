@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require('discord.js');
+        const { EmbedBuilder } = require('discord.js');
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const config = require('../../config.json')
 const axios = require('axios')
@@ -23,7 +23,7 @@ module.exports = async (client, message, args) => {
         let msg = await message.reply({embeds: [
             new EmbedBuilder()
             .setTitle(`❓ Are you sure you want to delete your own account!`)
-            .setColor(`RED`)
+            .setColor(`Red`)
             .setDescription(`You are going to delete your account with username: \`${userDB.username}\`. Once you click the yes button all your ${servers.length > 1 ? '\`'+ servers.length + '\` servers' : 'servers'} will be deleted.\n\n⚠️ *This acction is not reversable. once you deleted your account all your data will be lost forever*`)
         ], components:[
             new ActionRowBuilder()
@@ -100,7 +100,7 @@ module.exports = async (client, message, args) => {
                 msg.edit({embeds:[
                     new EmbedBuilder()
                     .setTitle(':x: Account Deletion canceled')
-                    .setColor(`RED`)
+                    .setColor(`Red`)
                 ]})
                 return
             }
@@ -109,8 +109,8 @@ module.exports = async (client, message, args) => {
                 if(servers.length > 0){
                     await msg.edit({embeds:[
                         new EmbedBuilder()
-                        .setTitle('Deleting servers . . .')
-                        .setColor(`RED`)
+                        .setTitle('✔ Deleting servers . . .')
+                        .setColor(`Red`)
                     ]})
                     await Promise.all(servers.map(async server => {
                         await axios({
@@ -126,15 +126,15 @@ module.exports = async (client, message, args) => {
                         }).then(() => {}).catch(err => {return msg.edit({embeds:[
                             new EmbedBuilder()
                             .setTitle(`:x: There was an error deleting your servers`)
-                            .setColor(`RED`)
+                            .setColor(`Red`)
                         ]})})
                     }))
                 }
 
                 await msg.edit({embeds:[
                     new EmbedBuilder()
-                    .setTitle('Deleting The Account . . .')
-                    .setColor(`RED`)
+                    .setTitle('✔ Deleting The Account . . .')
+                    .setColor(`Red`)
                 ]})
 
                 await axios({
@@ -159,7 +159,7 @@ module.exports = async (client, message, args) => {
                         embeds:[
                             new EmbedBuilder()
                             .setTitle(`✅ Account Deleted Successfully`)
-                            .setColor(`GREEN`)
+                            .setColor(`Green`)
                         ]
                     })
                     
@@ -168,7 +168,7 @@ module.exports = async (client, message, args) => {
                         embeds:[
                             new EmbedBuilder()
                             .setTitle(`:x: There was an error deleting your account`)
-                            .setColor(`RED`)
+                            .setColor(`Red`)
                             .setDescription(`${err}`)
                         ]
                     })
