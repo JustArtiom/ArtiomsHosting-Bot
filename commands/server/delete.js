@@ -1,5 +1,4 @@
 const config = require('../../config.json')
-const { EmbedBuilder } = require('discord.js');
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const axios = require('axios');
 module.exports = async (client, message, args) => {
