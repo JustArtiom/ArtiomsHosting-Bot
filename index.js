@@ -3,7 +3,7 @@ const config = require(`./config.json`);
 const db = require('quick.db')
 
 const client = new Client({ intents: 32767 })
-console.log(`[Rewrite v14] ✅ Client logged in as: ${client.user.username}`)
+console.log(`[Rewrite v14] ✅ Client logged in`)
 
 client.snipes = new Collection();
 client.commands = new Collection();
