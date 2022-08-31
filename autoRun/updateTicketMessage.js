@@ -8,7 +8,7 @@ module.exports = async (client) => {
     let toSendEmbed = [
         new EmbedBuilder()
         .setTitle(`Interactions`)
-        .setColor(`BLUE`)
+        .setColor(`Blue`)
         .setDescription(`📩 - Create a ticket\n💻 - Apply for volunteer developer\n👨‍💼 - Apply staff`)
     ]
 
@@ -37,6 +37,6 @@ module.exports = async (client) => {
         )
     ]
     
-    if(msg) msg.edit({ embeds: toSendEmbed, components: ToSendComponents})
-    else channel.send({embeds: toSendEmbed, components: ToSendComponents})
+    if(msg) msg.edit({ embeds: [toSendEmbed], components: [ToSendComponents] })
+    else channel.send({embeds: [toSendEmbed], components: [ToSendComponents] })
 }
