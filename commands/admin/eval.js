@@ -31,7 +31,7 @@ module.exports = {
                     embeds:[
                         new EmbedBuilder()
                         .setTitle(`Eval by ${message.author.tag}`)
-                    	.setColor(`GREEN`)
+                    	.setColor(`Green`)
                     ]
                 })
                 message.channel.send({
