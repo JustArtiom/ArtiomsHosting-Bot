@@ -75,7 +75,7 @@ const axios = require('axios')
                                                         msg.edit({content: "<@" + message.author.id + ">", embeds:[
                                                             new EmbedBuilder()
                                                             .setTitle(`Your Pterodactyl Server Status`)
-                                                            .setColor(`${resources.data.attributes.current_state == 'running' ? 'GREEN' : resources.data.attributes.current_state == 'offline' ? 'RED' : "YELLOW"}`)
+                                                            .setColor(`${resources.data.attributes.current_state == 'running' ? 'Green' : resources.data.attributes.current_state == 'offline' ? 'Red' : "Yellow"}`)
                                                             .setDescription(`**Status:** \`${resources.data.attributes.current_state == 'running' ? '🟢 Running' : resources.data.attributes.current_state == 'offline' ? '🔴 Offline' : "🔄" + resources.data.attributes.current_state}\`\n`
                                                             + `**Name:** \`${srvname}\`\n`
                                                             + `**Uptime:** \`${getUptime(resources.data.attributes.resources.uptime)}\`\n`
