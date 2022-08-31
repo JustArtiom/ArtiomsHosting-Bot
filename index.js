@@ -1,4 +1,4 @@
-const Client = require('discord.js');
+const { Client } = require('discord.js');
 const config = require(`./config.json`);
 const db = require('quick.db')
 
