@@ -1,14 +1,14 @@
-const { Client } = require('discord.js');
+const { Client, Collection } = require('discord.js');
 const config = require(`./config.json`);
 const db = require('quick.db')
 
 const client = new Client({ intents: 32767 })
 console.log(`[Rewrite v14] ✅ Client logged in as: ${client.user.username}`)
 
-client.snipes = new Discord.Collection();
-client.commands = new Discord.Collection();
-client.events = new Discord.Collection();
-client.auth = new Discord.Collection();
+client.snipes = new Collection();
+client.commands = new Collection();
+client.events = new Collection();
+client.auth = new Collection();
 
 global.userData = new db.table("userData");
 global.serverCount = new db.table("FreeServerCount");
