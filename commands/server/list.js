@@ -36,7 +36,7 @@ module.exports = async (client, message, args) => {
                         new EmbedBuilder()
                         .setTitle(`:x: | HOW MANY SERVERS DO U HAVE BRO???`)
                         .setDescription(`${err}`)
-                        .setColor(`RED`)
+                        .setColor(`Red`)
                     ]
                 })
             })
