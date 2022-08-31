@@ -1,7 +1,5 @@
-const { EmbedBuilder } = require('discord.js')
+        const { EmbedBuilder } = require('discord.js')
 module.exports = async (client, message, args) => {
-    message.channel.send({embeds:[
-        new Disc
 const Discord = require('discord.js')
 module.exports = async (client, message, args) => {
     message.channel.send({embeds:[
@@ -10,3 +8,4 @@ module.exports = async (client, message, args) => {
         .setDescription(`\`AH!staff lockdown\` - change "SEND_MESSAGES" permissions`)
     ]})
 }
+    }
