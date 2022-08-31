@@ -74,7 +74,7 @@ module.exports = async (client, message, args) => {
             content: null,
             embeds:[
                 new EmbedBuilder()
-                .setColor(`GREEN`)
+                .setColor(`Green`)
                 .setTitle(`✅ Successfully created you a server!`)
                 .setDescription(`
                 > **Status:** \`${response.statusText}\`
@@ -93,7 +93,7 @@ module.exports = async (client, message, args) => {
                 content: null,
                 embeds:[
                     new EmbedBuilder()
-                    .setColor('RED')
+                    .setColor('Red')
 	.addFields(
 		{ name: '❌ Server creation failed', value: 'The node had ran out of allocations/ports!' }
     )
@@ -104,7 +104,7 @@ module.exports = async (client, message, args) => {
                 content: null,
                 embeds:[
                     new EmbedBuilder()
-                    .setColor('RED')
+                    .setColor('Red')
 	.addFields(
 		{ name: '❌ Server creation failed', value: 'The node is currently offline or having issues' }
     )
@@ -115,7 +115,7 @@ module.exports = async (client, message, args) => {
                 content: null,
                 embeds:[
                     new EmbedBuilder()
-                    .setColor('RED')
+                    .setColor('Red')
 	.addFields(
 		{ name: '❌ Server creation failed', value: `Uh oh, This shouldn\'t happen, Try again in a minute or two.` }
                     ]
@@ -125,7 +125,7 @@ module.exports = async (client, message, args) => {
                 content: null,
                 embeds:[
                     new EmbedBuilder()
-                    .setColor('RED')
+                    .setColor('Red')
 	.addFields(
 		{ name: '❌ Server creation failed', value: `Uh oh, This shouldn\'t happen, Try again in a minute or two.` }
                     ]
@@ -135,7 +135,7 @@ module.exports = async (client, message, args) => {
                 content: null,
                 embeds:[
                     new EmbedBuilder()
-                    .setColor('RED')
+                    .setColor('Red')
                     .addField(
                       { name: `❌ Server creation failed`, value: `${error}.`)
                 ]
