@@ -35,7 +35,7 @@ module.exports = async (client, interaction) => {
         const WelcomToTicket = await channel.send({content: `<@${interaction.user.id}>`, embeds:[
             new EmbedBuilder()
             .setTitle(`${interaction.user.username}'s Ticket`)
-            .setColor(`BLUE`)
+            .setColor(`Blue`)
             .setDescription(`Welcome to Artiom's Hosting official support, how can we help you?\nPlease describe your problem as much as possible \:D`)
             .setFooter({text:`Please do not ping/ghost ping! | interact with 🔒 to close the ticket`})
             ],
@@ -88,7 +88,7 @@ module.exports = async (client, interaction) => {
         const WelcomToTicket = await channel.send({content: `<@${interaction.user.id}>`, embeds:[
             new EmbedBuilder()
             .setTitle(`${interaction.user.username}'s Channel`)
-            .setColor(`BLUE`)
+            .setColor(`Blue`)
             .setDescription(`Hi, we are happy to hear that you want to apply for volunteer developing in ArtiomsHosting. Firstly to apply we need to know some informations about you:\n\n> 1. What is your name\n> 2. What is you Contact Email\n> 3. What code languages do you know\n> 4. do you have any projecs that are you proud of?\n> 5. any other details\n\nAt the end please wait untill artiom's responce \\:) ty`)
             .setFooter({text:`Please do not ping/ghost ping! | interact with "🔒" to close the ticket`})
             ],
@@ -140,7 +140,7 @@ module.exports = async (client, interaction) => {
         const WelcomToTicket = await channel.send({content: `<@${interaction.user.id}>`, embeds:[
             new EmbedBuilder()
             .setTitle(`${interaction.user.username}'s Ticket`)
-            .setColor(`BLUE`)
+            .setColor(`Blue`)
             .setDescription(`u sure u want to apply? \:D`)
             .setFooter({text:`Please do not ping/ghost ping! | interact with 🔒 to close the ticket`})
             ],
@@ -163,7 +163,7 @@ module.exports = async (client, interaction) => {
 
 
     if([config.parentID.ticketParent, config.parentID.applyDeveloper, config.parentID.applyStaff].includes(client.channels.cache.get(interaction.message.channelId)?.parentId) && interaction?.customId === 'CloseTicket'){
-        interaction.reply(`Closing This Ticket . . .`)
+        interaction.reply(`✔ Closing ticket`)
         await wait(1000)
         client.channels.cache.get(interaction.message.channelId)?.delete().catch(() => {})
     }
