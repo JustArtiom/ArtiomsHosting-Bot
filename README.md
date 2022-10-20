@@ -1,4 +1,7 @@
 # ArtiomsHosting Bot Manager
+#
+First of all, make sure you read my licence.
+#
 
 Bot setup:
 - Edit the config-example.json into config.json 
