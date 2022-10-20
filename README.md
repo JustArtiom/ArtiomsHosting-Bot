@@ -1,5 +1,5 @@
 # ArtiomsHosting Bot Manager
-#
+
 First of all, make sure you read my licence.
 #
 
