@@ -1,12 +1,7 @@
 import { Client } from "discord.js";
-import { log, warn, error } from "../../utils/console";
+import { log } from "../../utils/console";
+import chalk from "chalk";
 
 export const event = (client: Client<true>) => {
-    log(`${client.user.username} is ready`)
-    warn("test")
-    error("test")
-
-    log({name: "Bot", description: "yes"})
-    warn({name: "Bot", description: "yes"})
-    error({name: "Bot", description: "yes"})
+    log({ name: "Bot", description: `${chalk.bold(client.user.username)} is ready!`})
 }

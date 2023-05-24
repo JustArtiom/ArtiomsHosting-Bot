@@ -1,8 +1,9 @@
 import { Client, REST, Routes } from "discord.js";
 import config from "../../config";
 import { getCommands, convertCommands } from "./getCommands";
+import { log, error } from "./console";
 
-export const deploy = async (client?: Client) => {
+export const deploy = async (client?: Client, logmessages?: boolean) => {
     let id = config.bot.id;
     let token = config.bot.token;
     let guild = process.argv[3] ?? "*"
@@ -13,21 +14,25 @@ export const deploy = async (client?: Client) => {
         throw new Error("Updating Slash Commands Error - Bot token or id is missing form config.ts")
 
     const start = Date.now()
-    console.log(`( / ) starting updating slash commands on ${guild === "*" ? "all servers" : `guild with id ${guild}`}`);
+    if(logmessages) log({name: "/", description: `starting updating slash commands on ${guild === "*" ? "all servers" : `guild with id ${guild}`}`});
 
     const rest = new REST({ version: '10' }).setToken(token);
     let cmds = convertCommands(await getCommands())
-    if(!cmds.length) return console.log("( X ) There is no command to be updated")
+    if(!cmds.length) {
+        if(logmessages) error({name: "/", description: "There is no command to be updated"})
+        return false
+    }
 
-    console.log(`( / ) Updating ${cmds.length} commands`)
+    if(logmessages) log({name: "/", description: `Updating ${cmds.length} commands...`})
     const data = await rest.put(
 		guild === '*' ? Routes.applicationCommands(id) : Routes.applicationGuildCommands(id, guild),
 		{ body: cmds },
 	);
 
-    console.log(`( / ) Commands updated sucessfully`)
+    if(logmessages) log({name: "/", description: `Commands updated sucessfully in ${Date.now() - start}ms!`})
+    else return true
 }
 
 if(process.argv[2] === "deploy"){
-    deploy()
+    deploy(undefined, true)
 }

@@ -1,6 +1,6 @@
 import { ChannelType, ChatInputCommandInteraction, Client } from "discord.js"
 
-export type DefaultCommand = {
+export interface DefaultCommand {
     name: string,
     description: string,
     stringOption?: {
@@ -27,4 +27,12 @@ export type DefaultCommand = {
         required: boolean
     }[],
     run: (client: Client<true>, interaction: ChatInputCommandInteraction) => Promise<any>
+}
+
+export interface DBUser {
+    discordid: string,
+    pteroid: number,
+    username: string,
+    email: string,
+    createdTimestamp: number,
 }

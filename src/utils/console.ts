@@ -29,3 +29,9 @@ export const error = (data: Log) => {
     
     console.log(tolog);
 }
+
+export const catchHandler = (who: string) => {
+    return (data: any) => {
+        error({name: who, description: data.toString()})
+    }
+}
