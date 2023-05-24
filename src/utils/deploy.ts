@@ -11,7 +11,7 @@ export const deploy = async (client?: Client, logmessages?: boolean) => {
     if(client?.isReady() && client.user?.id !== id) 
         throw new Error("Updating Slash Commands Error - Client id is not the same as in the config file");
     if(!id || !token) 
-        throw new Error("Updating Slash Commands Error - Bot token or id is missing form config.ts")
+        throw new Error("Updating Slash Commands Error - Bot token or id is missing form config")
 
     const start = Date.now()
     if(logmessages) log({name: "/", description: `starting updating slash commands on ${guild === "*" ? "all servers" : `guild with id ${guild}`}`});

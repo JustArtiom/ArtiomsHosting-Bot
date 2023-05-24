@@ -4,8 +4,8 @@ import { getCommands } from "./getCommands";
 
 export const eventHandler = async (client: Client) => {
 
-    const event_files = fs.readdirSync(`./src/discord/events`)
-    .filter(file => file.endsWith('.ts'));
+    const event_files = fs.readdirSync(`.${__filename.endsWith(".js") ? "/dist" : ""}/src/discord/events`)
+    .filter(file => file.endsWith('.ts') || file.endsWith(".js"));
 
     for(let file of event_files){
         const event = await import(`../discord/events/${file}`);

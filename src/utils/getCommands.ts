@@ -3,8 +3,8 @@ import fs from 'fs';
 import { DefaultCommand } from "./types"
 
 export const getCommands = async () => {
-    const commands = fs.readdirSync('./src/discord/commands').filter(x => x.endsWith('.ts'));
-    const subcommands = fs.readdirSync('./src/discord/commands', { withFileTypes: true })
+    const commands = fs.readdirSync(`.${__filename.endsWith(".js") ? "/dist" : ""}/src/discord/commands`).filter(x => x.endsWith('.ts') || x.endsWith(".js"));
+    const subcommands = fs.readdirSync(`.${__filename.endsWith(".js") ? "/dist" : ""}/src/discord/commands`, { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
     .map(dirent => dirent.name);
 
@@ -17,8 +17,8 @@ export const getCommands = async () => {
     }
 
     for(let folder of subcommands) {
-        const subcommands_commands = fs.readdirSync('./src/discord/commands/' + folder)
-        .filter(x => x.endsWith('.ts'));
+        const subcommands_commands = fs.readdirSync(`.${__filename.endsWith(".js") ? "/dist" : ""}/src/discord/commands/` + folder)
+        .filter(x => x.endsWith('.ts') || x.endsWith(".js"));
 
         for(let file of subcommands_commands){
             const cmd = (await import('../discord/commands/' + folder + '/' + file)).default
