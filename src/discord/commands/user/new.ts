@@ -13,11 +13,67 @@ import { setTimeout as wait } from 'node:timers/promises';
 import { error, catchHandler } from "../../../utils/console";
 import mailer from "../../../mailer";
 import validatior from "validator";
+import validatorCheck from "../../../utils/validatorCheck";
 
 export default <DefaultCommand> {
     name: "new",
     description: "Create an account on ArtiomsHosting",
     run: async (client, interaction) => {
+
+        let validation1 = await validatorCheck([
+            {
+                callback: async () => !!await userData.get(interaction.user.id),
+                send: {
+                    embeds: [
+                        new EmbedBuilder()
+                        .setTitle(":x: | You already have an account")
+                        .setColor("Red")
+                    ]
+                }
+            },
+            {
+                callback: async () => client.channels.cache.get(config.categories.createAccount)?.type !== ChannelType.GuildCategory,
+                send: {
+                    embeds: [
+                        new EmbedBuilder()
+                        .setTitle(":x: | Category not found")
+                        .setColor("Red")
+                        .setDescription("The category for creating a private channel to complete the account registration was not found in the cache. The reasons for this might be because the cache was loaded wrongly or the channel id set in the config is not available/valid. Please contact an admin!")
+                    ]
+                }
+            }
+        ])
+
+        if(validation1) return interaction.reply(validation1)
+
+        let channel = await interaction.guild?.channels.create({
+            name: interaction.user.id,
+            parent: config.categories.createAccount,
+            permissionOverwrites: [{
+                id: interaction.user.id,
+                allow: ["ViewChannel", "ReadMessageHistory"],
+            }, {
+                id: interaction.guild.id,
+                deny: ["ViewChannel", "SendMessages"]
+            }]
+        }).catch((e) => {
+            error({name: "Bot", description: "Account creation error:"})
+            console.log(e)
+        })
+
+        if(!channel) return interaction.reply({
+            embeds: [
+                new EmbedBuilder()
+                .setTitle(":x: | Channel creation error")
+                .setColor("Red")
+                .setDescription("An error occurred and the private channel wasnt created. There could be many reasons for this happening, some of them beeing: interaction.guild is undefined or there has been an API request error. Check console for more info!")
+            ]
+        })
+
+        await interaction.reply(`Please check ${channel} to create your account!`)
+
+        
+        /*
         if(await userData.get(interaction.user.id)) return interaction.reply({
             embeds: [
                 new EmbedBuilder()
@@ -140,5 +196,7 @@ export default <DefaultCommand> {
         await channel.permissionOverwrites.edit(interaction.user, {
             SendMessages: true
         }).catch((e) => error({name: "Bot", description: `Account creation - ${interaction.user.id} - ${e}`}))
+
+        */
     }
 }
