@@ -3,10 +3,11 @@ import { Channel, ChatInputCommandInteraction, InteractionReplyOptions, Message,
 export default async (data: {
     callback: () => boolean | Promise<boolean>
     tries?: number 
-    send: string | InteractionReplyOptions 
+    interaction?: string | InteractionReplyOptions,
+    message?: any
 }[]) => {
-    for(let {callback, tries, send} of data) {
-        if(await callback()) return send
+    for(let {callback, tries, interaction, message} of data) {
+        if(await callback()) return interaction || message || "No message to reply with"
         else undefined
     }
 }
