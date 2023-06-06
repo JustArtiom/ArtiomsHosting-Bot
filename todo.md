@@ -2,8 +2,8 @@
 ### Bot:
 - [ ] - Finish to-do list 😂
 - [x] - Setup configurations (packages, config, etc.)
-- [ ] - Main files and base of the bot
-- [ ] - Event handler
+- [x] - Main files and base of the bot
+- [x] - Event handler
 - [x] - Command handler and deployer
     - [x] - Command deployer
     - [x] - Command handler
