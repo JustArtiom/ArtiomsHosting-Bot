@@ -18,7 +18,16 @@ export interface DefaultCommand {
     channelOption?: {
         name: string,
         description: string,
-        channelType: ChannelType.GuildText | ChannelType.GuildVoice | ChannelType.GuildCategory | ChannelType.GuildAnnouncement | ChannelType.AnnouncementThread | ChannelType.PublicThread | ChannelType.PrivateThread | ChannelType.GuildStageVoice | ChannelType.GuildForum
+        channelType:
+            ChannelType.GuildText | 
+            ChannelType.GuildVoice | 
+            ChannelType.GuildCategory | 
+            ChannelType.GuildAnnouncement | 
+            ChannelType.AnnouncementThread | 
+            ChannelType.PublicThread | 
+            ChannelType.PrivateThread | 
+            ChannelType.GuildStageVoice | 
+            ChannelType.GuildForum
         required: boolean
     }[],
     booleanOption?: {
@@ -26,7 +35,18 @@ export interface DefaultCommand {
         description: string,
         required: boolean
     }[],
-    run: (client: Client<true>, interaction: ChatInputCommandInteraction) => Promise<any>
+    run: (
+        client: Client<true>, 
+        interaction: ChatInputCommandInteraction
+    ) => Promise<any>
+}
+
+export interface DBUserLogs {
+    commands: {
+        command: string,
+        completed?: boolean,
+        timestamp: number
+    }[]
 }
 
 export interface DBUser {
@@ -34,5 +54,6 @@ export interface DBUser {
     pteroid: number,
     username: string,
     email: string,
+    balance: number,
     createdTimestamp: number,
 }

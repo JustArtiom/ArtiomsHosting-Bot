@@ -1,4 +1,4 @@
-import { EmbedBuilder, Message, TextChannel } from "discord.js"
+import { EmbedBuilder, Message } from "discord.js"
 import { catchHandler } from "./console"
 import { setTimeout as wait } from 'node:timers/promises';
 
@@ -31,7 +31,7 @@ export default async ({
         message.edit({embeds: [
             new EmbedBuilder()
             .setTitle(ask)
-            .setColor("Blue")
+            .setColor("Yellow")
             .setFooter({text: "tyoe \"cancel\" or \"stop\" to stop the data this process"})
         ], components: []});
         if(run) run(collectedData);

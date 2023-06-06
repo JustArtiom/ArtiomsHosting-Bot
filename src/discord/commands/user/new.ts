@@ -15,6 +15,7 @@ import validatorCheck from "../../../utils/validatorCheck";
 import collectorHandler, { toCollectParam } from "../../../utils/collectorHandler";
 import validator from "validator";
 import mailer from "../../../mailer";
+import request from "../../../utils/request";
 
 export default <DefaultCommand> {
     name: "new",
@@ -185,22 +186,20 @@ export default <DefaultCommand> {
                     if(message.content === pin6.toString()) return { error: false, message: message.content }
                     return { error: true, message: "The pin code is incorrect." }
                 },
-                run: async (collectedData) => {
-                    let info = await mailer.sendMail({
-                        from: config.mail.auth.user, 
-                        to: collectedData.find(x => x.id === "email")?.data, 
-                        subject: `${pin6} - Here is your 6pin code`, 
-                        text: `Thank you for regestiring at ArtiomsHosting. Your 6pin verification code is: ${pin6}\n\nThanks and have a nice day!\nArtiomsHosting`, 
-                    }).catch((err) => {
-                        catchHandler("Bot")(err)
-                        console.log(err)
-                        channel?.send({embeds: [
-                            new EmbedBuilder()
-                            .setTitle("Error Sending the email")
-                            .setColor("Red")
-                        ]})
-                    });
-                }
+                run: async (collectedData) => mailer.sendMail({
+                    from: config.mail.auth.user, 
+                    to: collectedData.find(x => x.id === "email")?.data, 
+                    subject: `${pin6} - Here is your 6pin code`, 
+                    text: `Thank you for regestiring at ArtiomsHosting. Your 6pin verification code is: ${pin6}\n\nThanks and have a nice day!\nArtiomsHosting`, 
+                }).catch((err) => {
+                    catchHandler("Bot")(err)
+                    console.log(err)
+                    channel?.send({embeds: [
+                        new EmbedBuilder()
+                        .setTitle("Error Sending the email")
+                        .setColor("Red")
+                    ]})
+                })
             })
         }
 
@@ -221,7 +220,57 @@ export default <DefaultCommand> {
             channel.delete().catch(catchHandler("Bot"))
             return
         }
-        
-        console.log(collected)
+
+        const userCreds = {
+            username: collected.find((x) => x.id === "username")?.data,
+            email: collected.find((x) => x.id === "email")?.data,
+            pin6: collected.find((x) => x.id === "pin6")?.data,
+            password: (Math.random() + 1).toString(36).substring(2)
+        }
+
+        const res = await request({
+            url: "/api/application/users",
+            method: "POST",
+            data: {
+                username: userCreds.username,
+                email: userCreds.email,
+                first_name: userCreds.username,
+                last_name: "client",
+                password: userCreds.password,
+                root_admin: false,
+                language: "en"
+            }
+        }).catch(x => ({error: true, data: x?.response?.data?.errors}))
+
+        console.log(res)
+        if(res.error) {
+            msg.edit({
+                embeds: [
+                    new EmbedBuilder()
+                    .setTitle(":x: Error creating the account")
+                    .setColor("Red")
+                    .setDescription(res.data ? 
+                        `Errors:\n\n ${res.data.map((x: {code: string, status: string, detail: string}) => `${x.status} - ${x.detail}`)}` : 
+                        `The server might be offline at the moment. Please try again later.`)
+                ]
+            })
+            await wait(7_500)
+            channel.delete().catch(catchHandler("Bot"))
+            return
+        }
+
+        msg.member?.roles.add(config.roles.client).catch(catchHandler("Bot"))
+        msg.edit({
+            content: `${msg.author}`,
+            embeds: [
+                new EmbedBuilder()
+                .setTitle(`✅ Your account was successfully created`)
+                .setColor(`Blue`)
+                .setDescription(`Here are the account details:\n\n> panel link: ${config.ptero.url}\n> email: \`${userCreds.email}\`\n> username: \`${userCreds.username}\`\n> password: || ${userCreds.password} ||\n\nMake sure you will change your password *(after you login)* by accessing the top right account icon on the panel, from there you will have to type your curent password which is marked above and your new password.\n\n⚠️ *This channel will be deleted in 30 minues, make sure you saved your login data before the channel gets deleted*`)
+            ]
+        }).catch(catchHandler("Bot"))
+
+        await wait(1_800_000)
+        try{ channel.delete().catch(() => {}) }catch(err){ msg.channel.send(`There was an error deleting the channel!\n${err}`).catch(catchHandler("Bot"))}
     }
 }

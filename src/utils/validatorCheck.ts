@@ -1,4 +1,4 @@
-import { Channel, ChatInputCommandInteraction, InteractionReplyOptions, Message, MessageCreateOptions, MessagePayload } from "discord.js";
+import { InteractionReplyOptions} from "discord.js";
 
 export default async (data: {
     callback: () => boolean | Promise<boolean>
