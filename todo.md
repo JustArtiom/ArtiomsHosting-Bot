@@ -7,11 +7,11 @@
 - [x] - Command handler and deployer
     - [x] - Command deployer
     - [x] - Command handler
-- [ ] - Utils
+- [x] - Utils
     - [x] - Command collector
     - [x] - Command converter
-    - [ ] - Request handler (pterodactyl requests)
-    - [ ] - Data collector (collecting info such as email and username)
+    - [x] - Request handler (pterodactyl requests)
+    - [x] - Data collector (collecting info such as email and username)
 - [ ] - Commands
     - [x] - ping (most importnat)
     - [x] - eval
