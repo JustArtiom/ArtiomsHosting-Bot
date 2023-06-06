@@ -16,7 +16,7 @@
     - [x] - ping (most importnat)
     - [ ] - eval
     - [ ] - user
-        - [ ] - new
+        - [x] - new
         - [ ] - delete
         - [ ] - link
         - [ ] - password

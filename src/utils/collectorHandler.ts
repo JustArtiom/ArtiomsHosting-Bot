@@ -5,6 +5,7 @@ import { setTimeout as wait } from 'node:timers/promises';
 export type toCollectParam = {
     id: string;
     ask: string;
+    description?: string;
     tries?: number | undefined;
     run?: (collectedData: {id: string, data: string}[]) => any;
     validation: (message: Message<boolean>) => Promise<{
@@ -27,16 +28,20 @@ export default async ({
 
     const collectedData: {id: string, data: string}[] = []
 
-    for(let { id, ask, tries, validation, run } of toCollect) {
+    for(let { id, ask, description, tries, validation, run } of toCollect) {
         message.edit({embeds: [
-            new EmbedBuilder()
-            .setTitle(ask)
-            .setColor("Yellow")
-            .setFooter({text: "tyoe \"cancel\" or \"stop\" to stop the data this process"})
+            (() => {
+                const embed = new EmbedBuilder()
+                .setTitle(ask)
+                .setColor("Yellow")
+                .setFooter({text: "type \"cancel\" or \"stop\" to stop the data this process"})
+                if(description) embed.setDescription(description)
+                return embed
+            })()
         ], components: []});
         if(run) run(collectedData);
 
-        for(let i = 1; i < (tries ? tries-1 : 7); i++) {
+        for(var i = 1; i < (tries ? tries-1 : 7); i++) {
             if(typeof tries == "number" && tries <= 0) break
             let collected = (await message.channel.awaitMessages({filter, max: 1, time: 300_000}).catch(() => {}))?.first();
             if(!collected) break
@@ -50,8 +55,9 @@ export default async ({
             } else {
                 if(i >= 0) message.channel.send({embeds: [
                     new EmbedBuilder()
-                    .setTitle(check.message)
-                    .setColor("Red")
+                        .setTitle(check.message)
+                        .setColor("Red")
+
                 ]}).then(async (m) => {
                     await wait(3000)
                     m.delete().catch(catchHandler("Bot"))
@@ -62,8 +68,8 @@ export default async ({
         if(!collectedData.find(x => x.id === id)) return { 
             error: true, 
             message: 
-                tries ? "You tried too many times" :
-                "Not enough data provided. Thank you for the time spent, have nice day!"
+                i <= 0 ? "You tried too many times" :
+                "Not enough data. Thank you for the time spent, have nice day!"
         }
     }
 

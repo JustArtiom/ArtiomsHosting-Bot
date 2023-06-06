@@ -17,6 +17,9 @@ import validator from "validator";
 import mailer from "../../../mailer";
 import request from "../../../utils/request";
 
+const timedelay = new Map<number, string>()
+const sessions = new Map<string, string>()
+
 export default <DefaultCommand> {
     name: "new",
     description: "Create an account on ArtiomsHosting",
@@ -41,6 +44,17 @@ export default <DefaultCommand> {
                         .setTitle(":x: | Category not found")
                         .setColor("Red")
                         .setDescription("The category for creating a private channel to complete the account registration was not found in the cache. The reasons for this might be because the cache was loaded wrongly or the channel id set in the config is not available/valid. Please contact an admin!")
+                    ]
+                }
+            }, 
+            {
+                callback: () => Array.from(timedelay.values()).filter(value => value === interaction.user.id).length >= 3,
+                interaction: {
+                    embeds: [
+                        new EmbedBuilder()
+                        .setTitle(":x: | You tried too many times")
+                        .setColor("Red")
+                        .setDescription(`We apologise, but it seems that you have tried to create your account for too many times. For security purposes we will have to temporarily restrict you from this feature. Please try again later.`)
                     ]
                 }
             }
@@ -151,6 +165,23 @@ export default <DefaultCommand> {
             return
         }
 
+        if(sessions.get(interaction.user.id)) {
+            await msg.edit({
+                embeds: [
+                    new EmbedBuilder()
+                    .setTitle(":x: Ooppsss")
+                    .setColor("Red")
+                    .setDescription("It appears that you are already in a session trying to create an account. Please go to the right channel to complete your account creation")
+                    .setFooter({text: "This channel will be deleted in 10 seconds"})
+                ],
+                components: []
+            })
+            await wait(10_000)
+            channel.delete().catch(catchHandler("Bot"))
+            return 
+        }
+        sessions.set(interaction.user.id, channel.id);
+
         await channel.permissionOverwrites.edit(interaction.user, {
             SendMessages: true
         }).catch((e) => {
@@ -180,26 +211,36 @@ export default <DefaultCommand> {
             const pin6 = Math.floor(100000 + Math.random() * 900000)
             toCollect.push({
                 id: "pin6",
-                ask: "What is the 6 pin code sent on your email?",
+                ask: "What is the 6 pin code?",
+                description: "We kindly request you to check your email for the 6-digit PIN code. It should have been sent to the email address given by you earlier. Please take a moment to review your inbox, including any spam or junk folders, as the email might have been filtered there. Thank you for your cooperation in completing the verification process.",
                 tries: 5,
                 validation: async (message) => {
                     if(message.content === pin6.toString()) return { error: false, message: message.content }
                     return { error: true, message: "The pin code is incorrect." }
                 },
-                run: async (collectedData) => mailer.sendMail({
-                    from: config.mail.auth.user, 
-                    to: collectedData.find(x => x.id === "email")?.data, 
-                    subject: `${pin6} - Here is your 6pin code`, 
-                    text: `Thank you for regestiring at ArtiomsHosting. Your 6pin verification code is: ${pin6}\n\nThanks and have a nice day!\nArtiomsHosting`, 
-                }).catch((err) => {
-                    catchHandler("Bot")(err)
-                    console.log(err)
-                    channel?.send({embeds: [
-                        new EmbedBuilder()
-                        .setTitle("Error Sending the email")
-                        .setColor("Red")
-                    ]})
-                })
+                run: async (collectedData) => {
+                    let mail = await mailer.sendMail({
+                        from: config.mail.auth.user, 
+                        to: collectedData.find(x => x.id === "email")?.data, 
+                        subject: `${pin6} - Here is your 6pin code`, 
+                        text: `Thank you for regestiring at ArtiomsHosting. Your 6pin verification code is: ${pin6}\n\nThanks and have a nice day!\nArtiomsHosting`, 
+                    }).catch((err) => {
+                        catchHandler("Bot")(err)
+                        console.log(err)
+                        channel?.send({embeds: [
+                            new EmbedBuilder()
+                            .setTitle("Error Sending the email")
+                            .setColor("Red")
+                        ]})
+                    })
+
+                    if(!mail) return
+                    const time = Date.now()
+                    timedelay.set(time, interaction.user.id)
+                    wait(3_600_000).then(() => {
+                        timedelay.delete(time)
+                    })
+                }
             })
         }
 
@@ -210,7 +251,8 @@ export default <DefaultCommand> {
         })
 
         if(!Array.isArray(collected)) {
-            channel.send({embeds: [
+            sessions.delete(interaction.user.id)
+            await channel.send({embeds: [
                 new EmbedBuilder()
                 .setTitle(collected.message)
                 .setColor("Red")
@@ -238,26 +280,37 @@ export default <DefaultCommand> {
                 last_name: "client",
                 password: userCreds.password,
                 root_admin: false,
-                language: "en"
+                language: "en",
             }
         }).catch(x => ({error: true, data: x?.response?.data?.errors}))
 
-        console.log(res)
+        sessions.delete(interaction.user.id)
         if(res.error) {
-            msg.edit({
+            await msg.edit({
                 embeds: [
                     new EmbedBuilder()
                     .setTitle(":x: Error creating the account")
                     .setColor("Red")
                     .setDescription(res.data ? 
-                        `Errors:\n\n ${res.data.map((x: {code: string, status: string, detail: string}) => `${x.status} - ${x.detail}`)}` : 
+                        `We have some issues creating your account:\n\n ${res.data.map((x: {code: string, status: string, detail: string}) => `**${x.status}** - ${x.detail}`).join('\n')}` : 
                         `The server might be offline at the moment. Please try again later.`)
+                    .setFooter({text: "This channel will be deleted in 10 seconds"})
                 ]
             })
-            await wait(7_500)
+            await wait(10_000)
             channel.delete().catch(catchHandler("Bot"))
             return
         }
+
+        await userData.set(interaction.user.id, {
+            discordid: interaction.user.id,
+            pteroid: res.attributes.id,
+            username: res.attributes.username,
+            email: res.attributes.email,
+            pin6: userCreds.pin6,
+            balance: 2,
+            createdTimestamp: Date.now(),
+        })
 
         msg.member?.roles.add(config.roles.client).catch(catchHandler("Bot"))
         msg.edit({
