@@ -14,7 +14,7 @@
     - [ ] - Data collector (collecting info such as email and username)
 - [ ] - Commands
     - [x] - ping (most importnat)
-    - [ ] - eval
+    - [x] - eval
     - [ ] - user
         - [x] - new
         - [ ] - delete
