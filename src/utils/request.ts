@@ -8,6 +8,6 @@ export default ({url, timeout, ...args}: AxiosRequestConfig) => axios({
     headers: {
         'Authorization': `Bearer ${url?.includes("/api/application") ? config.ptero.application : config.ptero.client}`,
         'Content-Type': 'application/json',
-        'Accept': 'Application/vnd.pterodactyl.v1+json',
+        'Accept': 'application/json',
     }
 }).then(x => x.data)

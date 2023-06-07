@@ -17,7 +17,7 @@
     - [x] - eval
     - [ ] - user
         - [x] - new
-        - [ ] - delete
+        - [x] - delete
         - [ ] - link
         - [ ] - password
         - [ ] - balance

@@ -73,7 +73,7 @@ export default <DefaultCommand> {
                 deny: ["ViewChannel", "SendMessages"]
             }]
         }).catch((e) => {
-            catchHandler("Bot")(e)
+            catchHandler("Discord")(e)
             console.log(e)
         })
 
@@ -129,7 +129,7 @@ export default <DefaultCommand> {
             }, 
             componentType: ComponentType.Button,
             time: 300_000 
-        }).catch(catchHandler("Bot"));
+        }).catch(catchHandler("Discord"));
 
         if(!legalCollector || legalCollector.customId !== "acceptLegal") {
             await msg.edit({
@@ -161,7 +161,7 @@ export default <DefaultCommand> {
                     .setDescription("This channel couldnt be deleted. Please ask an admin to delete this channel.")
                 ], 
                 components: []
-            })).catch(catchHandler("Bot"));
+            })).catch(catchHandler("Discord"));
             return
         }
 
@@ -177,7 +177,7 @@ export default <DefaultCommand> {
                 components: []
             })
             await wait(10_000)
-            channel.delete().catch(catchHandler("Bot"))
+            channel.delete().catch(catchHandler("Discord"))
             return 
         }
         sessions.set(interaction.user.id, channel.id);
@@ -186,7 +186,7 @@ export default <DefaultCommand> {
             SendMessages: true
         }).catch((e) => {
             catchHandler("Bot")(e);
-            msg.edit(e).catch(catchHandler("Bot"))
+            msg.edit(e).catch(catchHandler("Discord"))
         })
 
         const toCollect: toCollectParam[] = [
@@ -225,7 +225,7 @@ export default <DefaultCommand> {
                         subject: `${pin6} - Here is your 6pin code`, 
                         text: `Thank you for regestiring at ArtiomsHosting. Your 6pin verification code is: ${pin6}\n\nThanks and have a nice day!\nArtiomsHosting`, 
                     }).catch((err) => {
-                        catchHandler("Bot")(err)
+                        catchHandler("Mail")(err)
                         console.log(err)
                         channel?.send({embeds: [
                             new EmbedBuilder()
@@ -257,9 +257,9 @@ export default <DefaultCommand> {
                 .setTitle(collected.message)
                 .setColor("Red")
                 .setFooter({text: "This channel will be deleted in 10 seconds"})
-            ]}).catch(catchHandler("Bot"))
+            ]}).catch(catchHandler("Discord"))
             await wait(10_000)
-            channel.delete().catch(catchHandler("Bot"))
+            channel.delete().catch(catchHandler("Discord"))
             return
         }
 
@@ -298,7 +298,7 @@ export default <DefaultCommand> {
                 ]
             })
             await wait(10_000)
-            channel.delete().catch(catchHandler("Bot"))
+            channel.delete().catch(catchHandler("Discord"))
             return
         }
 
@@ -312,7 +312,7 @@ export default <DefaultCommand> {
             createdTimestamp: Date.now(),
         })
 
-        msg.member?.roles.add(config.roles.client).catch(catchHandler("Bot"))
+        msg.member?.roles.add(config.roles.client).catch(catchHandler("Discord"))
         msg.edit({
             content: `${msg.author}`,
             embeds: [
@@ -321,7 +321,7 @@ export default <DefaultCommand> {
                 .setColor(`Blue`)
                 .setDescription(`Here are the account details:\n\n> panel link: ${config.ptero.url}\n> email: \`${userCreds.email}\`\n> username: \`${userCreds.username}\`\n> password: || ${userCreds.password} ||\n\nMake sure you will change your password *(after you login)* by accessing the top right account icon on the panel, from there you will have to type your curent password which is marked above and your new password.\n\n⚠️ *This channel will be deleted in 30 minues, make sure you saved your login data before the channel gets deleted*`)
             ]
-        }).catch(catchHandler("Bot"))
+        }).catch(catchHandler("Discord"))
 
         await wait(1_800_000)
         try{ channel.delete().catch(() => {}) }catch(err){ msg.channel.send(`There was an error deleting the channel!\n${err}`).catch(catchHandler("Bot"))}

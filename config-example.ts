@@ -1,21 +1,33 @@
 export default {
     settings: {
-        verifyEmail: true
+        admins: ["918137699842555964"],
+        verifyEmail: true,
+        timeout: 3000,
     },
     categories: {
         createAccount: ""
     },
-    channel: {
-
+    channels: {},
+    roles: {
+        client: ""
     },
     mail: {
         enabled: true,
-        service: 'gmail',
-        user: 'noreply@artiom.host',
-        pass: ''
+        host: "",
+        port: 465,
+        secure: true,
+        auth: {
+            user: '',
+            pass: ''
+        }
     },
     bot: {
-        id: "1234567890",
+        id: "",
         token: ""
+    },
+    ptero: {
+        url: "",
+        client: "",
+        application: ""
     }
 }
