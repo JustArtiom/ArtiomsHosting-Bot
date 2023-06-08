@@ -129,7 +129,8 @@ export default <DefaultCommand> {
                     new EmbedBuilder()
                     .setTitle("✅ Account Deleted Successfully")
                     .setColor("Green")
-                ]
+                ],
+                components: []
             })
         })
         .catch((err) => {
