@@ -2,7 +2,7 @@ import { DefaultCommand } from "../../../utils/types";
 import fs from "node:fs";
 import { userData } from "../../../db";
 import validatorCheck from "../../../utils/validatorCheck";
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType, EmbedBuilder } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, CacheType, ComponentType, EmbedBuilder } from "discord.js";
 import { catchHandler } from "../../../utils/console";
 import request from "../../../utils/request";
 import config from "../../../../config";
@@ -54,8 +54,9 @@ export default <DefaultCommand> {
         ]}).catch(catchHandler("Bot"))
         let servers = account_w_servers.attributes.relationships.servers.data;
 
+        let buttoninteraction: ButtonInteraction<CacheType> | void;
         if(servers.length >= 5) {
-            const msg = await interaction.channel?.send({
+            const msg = await interaction.reply({
                 embeds: [
                     new EmbedBuilder()
                     .setTitle("❓ Are you sure you want to create more servers?")
@@ -80,17 +81,14 @@ export default <DefaultCommand> {
             })
             if(!msg) return 
 
-            const collector = await msg.awaitMessageComponent({ 
-                filter: (i) => {
-                    i.deferUpdate();
-                    return i.user.id === interaction.user.id
-                }, 
+            buttoninteraction = await msg.awaitMessageComponent({ 
+                filter: (i) => i.user.id === interaction.user.id, 
                 componentType: ComponentType.Button,
                 time: 300_000 
             }).catch(catchHandler("Discord"));
 
-
-            if(collector?.customId !== "CreateAnotherServer") {
+            if(buttoninteraction?.customId === "DontCreateAnotherServer") {
+                buttoninteraction.deferUpdate();
                 msg.edit({
                     embeds: [
                         new EmbedBuilder()
@@ -104,7 +102,7 @@ export default <DefaultCommand> {
         }
 
         let server_config = await import(`../../../server_creation/${server_type}`)
-        if(!server_config) return interaction.reply({
+        if(!server_config) return (buttoninteraction || interaction).reply({
             embeds: [
                 new EmbedBuilder()
                 .setTitle(":x: Server configuration file was not found")
@@ -117,7 +115,7 @@ export default <DefaultCommand> {
             method: "POST",
             data: server_config.default(user.pteroid, server_name || server_type+" server", config.settings.locations.free)
         }).then((res) => {
-            interaction.reply({
+            (buttoninteraction || interaction).reply({
                 content: undefined,
                 embeds: [
                     new EmbedBuilder()
@@ -140,7 +138,7 @@ export default <DefaultCommand> {
                 ]
             })
         }).catch((err) => {
-            interaction.reply({
+            (buttoninteraction || interaction).reply({
                 embeds: [
                     new EmbedBuilder()
                     .setTitle("❌ Server creation failed")
