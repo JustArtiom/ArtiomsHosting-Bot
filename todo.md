@@ -26,7 +26,7 @@
         - [ ] - servers
     - [ ] - server
         - [x] - create
-        - [ ] - delete
+        - [x] - delete
         - [ ] - update
         - [ ] - list
     - [ ] - staff 

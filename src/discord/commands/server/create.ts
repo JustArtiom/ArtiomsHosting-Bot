@@ -146,7 +146,7 @@ export default <DefaultCommand> {
                     .setTitle("❌ Server creation failed")
                     .setDescription(`Somthing went wrong and i couldnt create your server. ${
                         err?.response?.data?.errors?.length ? 
-                        `\n\n ${err?.response?.data?.errors?.length.map((x: any) => `**${x.status}** - ${x.detail}`)}` : 
+                        `\n\nError Log: ${err?.response?.data?.errors?.length.map((x: any) => `**${x.status}** - ${x.detail}`)}` : 
                         ""
                     }`)
                 ]
