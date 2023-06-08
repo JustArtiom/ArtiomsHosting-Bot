@@ -6,11 +6,11 @@ export interface DefaultCommand {
     stringOption?: {
         name: string,
         description: string,
-        required: boolean,
-        maxLength: number,
-        minLength: number,
-        autoComplete: boolean,
-        choices: {
+        required?: boolean,
+        maxLength?: number,
+        minLength?: number,
+        autoComplete?: boolean,
+        choices?: {
             name: string, 
             value: string
         }[]
@@ -41,13 +41,6 @@ export interface DefaultCommand {
     ) => Promise<any>
 }
 
-export interface DBUserLogs {
-    commands: {
-        command: string,
-        completed?: boolean,
-        timestamp: number
-    }[]
-}
 
 export interface DBUser {
     discordid: string,

@@ -23,7 +23,7 @@
         - [ ] - balance
         - [ ] - servers
     - [ ] - server
-        - [ ] - create
+        - [x] - create
         - [ ] - delete
         - [ ] - update
         - [ ] - list

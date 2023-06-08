@@ -22,18 +22,18 @@ export default <DefaultCommand> {
                 }
             }
         ]);
-        if(!user || validation1) return interaction.reply(validation1)
+        if(!user || validation1) return interaction.reply(validation1).catch(catchHandler("Discord"))
 
         const account_w_servers = await request({
             url: ("/api/application/users/" + user.pteroid + "?include=servers"),
             method: 'GET',
-        }).catch(catchHandler("Bot"))
+        }).catch(catchHandler("Axios"))
 
         if(!account_w_servers?.attributes) return interaction.reply({embeds:[
             new EmbedBuilder()
             .setTitle(":x: Account not found")
             .setColor("Red")
-        ]}).catch(catchHandler("Bot"))
+        ]}).catch(catchHandler("Discord"))
         
         let servers: {
             id: string, 
@@ -77,7 +77,7 @@ export default <DefaultCommand> {
             }, 
             componentType: ComponentType.Button,
             time: 300_000 
-        }).catch(catchHandler("Bot"));
+        }).catch(catchHandler("Discord"));
         
         if(!collector || collector.customId === "CancelAccountDeletion") return await msg.edit({
             embeds: [

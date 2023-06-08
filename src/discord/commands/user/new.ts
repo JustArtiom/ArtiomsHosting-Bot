@@ -60,7 +60,7 @@ export default <DefaultCommand> {
             }
         ])
 
-        if(validation1) return interaction.reply(validation1)
+        if(validation1) return interaction.reply(validation1).catch(catchHandler("Discord"))
 
         let channel = await interaction.guild?.channels.create({
             name: interaction.user.id,
@@ -185,7 +185,7 @@ export default <DefaultCommand> {
         await channel.permissionOverwrites.edit(interaction.user, {
             SendMessages: true
         }).catch((e) => {
-            catchHandler("Bot")(e);
+            catchHandler("Discord")(e);
             msg.edit(e).catch(catchHandler("Discord"))
         })
 
@@ -324,6 +324,6 @@ export default <DefaultCommand> {
         }).catch(catchHandler("Discord"))
 
         await wait(1_800_000)
-        try{ channel.delete().catch(() => {}) }catch(err){ msg.channel.send(`There was an error deleting the channel!\n${err}`).catch(catchHandler("Bot"))}
+        try{ channel.delete().catch(() => {}) }catch(err){ msg.channel.send(`There was an error deleting the channel!\n${err}`).catch(catchHandler("Discord"))}
     }
 }
