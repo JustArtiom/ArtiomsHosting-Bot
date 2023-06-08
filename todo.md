@@ -12,6 +12,8 @@
     - [x] - Command converter
     - [x] - Request handler (pterodactyl requests)
     - [x] - Data collector (collecting info such as email and username)
+- [ ] - Recover Cache
+    - [ ] - Recover timer for deleting "account creation channels"
 - [ ] - Commands
     - [x] - ping (most importnat)
     - [x] - eval

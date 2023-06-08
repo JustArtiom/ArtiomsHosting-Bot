@@ -102,11 +102,19 @@ export default <DefaultCommand> {
             }
         }
 
-        const server_config = (await import(`../../../server_creation/${server_type}`))(user.pteroid, server_name || server_type+" server", config.settings.locations.free)
+        let server_config = await import(`../../../server_creation/${server_type}`)
+        if(!server_config) return  interaction.reply({
+            embeds: [
+                new EmbedBuilder()
+                .setTitle(":x: Server configuration file was not found")
+                .setColor("Red")
+            ]
+        }).catch(catchHandler("Discord"));
+
         request({
             url: "/api/application/servers",
             method: "POST",
-            data: server_config
+            data: server_config(user.pteroid, server_name || server_type+" server", config.settings.locations.free)
         }).then((res) => {
             interaction.reply({
                 content: undefined,
