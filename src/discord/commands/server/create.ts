@@ -116,18 +116,27 @@ export default <DefaultCommand> {
             method: "POST",
             data: server_config.default(user.pteroid, server_name || server_type+" server", config.settings.locations.free)
         }).then((res) => {
+            console.log(res)
             interaction.reply({
                 content: undefined,
-                embeds:[
+                embeds: [
                     new EmbedBuilder()
                     .setColor("Green")
                     .setTitle(`✅ Server Created Successfully`)
                     .setDescription(`
-                    > **Status:** \`${res.statusText}\`
+                    > **Status:** \`${res.attributes.status}\`
                     > **User ID:** \`${user.pteroid}\`
                     > **Server Name:** \`${server_name || server_type+" server"}\`
                     > **Server Type:** \`${server_type}\`
                     `)
+                ], components: [
+                    new ActionRowBuilder<ButtonBuilder>()
+                    .addComponents(
+                        new ButtonBuilder()
+                        .setLabel('Link')
+                        .setURL(`${config.ptero.url}/server/${res.attributes.identifier}`)
+                        .setStyle(ButtonStyle.Link)
+                    )
                 ]
             })
         }).catch((err) => {
