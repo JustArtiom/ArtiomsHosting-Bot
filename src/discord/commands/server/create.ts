@@ -55,7 +55,7 @@ export default <DefaultCommand> {
         let servers = account_w_servers.attributes.relationships.servers.data;
 
         if(servers.length >= 5) {
-            const msg = await interaction.reply({
+            const msg = await interaction.channel?.send({
                 embeds: [
                     new EmbedBuilder()
                     .setTitle("❓ Are you sure you want to create more servers?")
@@ -78,6 +78,7 @@ export default <DefaultCommand> {
                     )
                 ]
             })
+            if(!msg) return 
 
             const collector = await msg.awaitMessageComponent({ 
                 filter: (i) => {
