@@ -6,7 +6,7 @@ import { log, error } from "./console";
 export const deploy = async (client?: Client, logmessages?: boolean) => {
     let id = config.bot.id;
     let token = config.bot.token;
-    let guild = process.argv[3] ?? "*"
+    let guild = config.bot.guild
 
     if(client?.isReady() && client.user?.id !== id) 
         throw new Error("Updating Slash Commands Error - Client id is not the same as in the config file");
