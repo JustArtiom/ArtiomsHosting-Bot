@@ -1,6 +1,7 @@
 export default {
     settings: {
         admins: ["918137699842555964"],
+        maintenance: true,
         verifyEmail: true,
         timeout: 3000,
     },
@@ -9,6 +10,7 @@ export default {
     },
     channels: {},
     roles: {
+        beta_testers: "",
         client: ""
     },
     mail: {
