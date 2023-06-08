@@ -60,7 +60,7 @@ export default <DefaultCommand> {
                     new EmbedBuilder()
                     .setTitle("❓ Are you sure you want to create more servers?")
                     .setDescription("Remember, abusing the host is contra our terms of service. If the servers are unused for more than 1 month, it will give you a warning by email that if no action will happen on the server, it will get deleted")
-                    .setTitle("Red")
+                    .setColor("Red")
                 ],
                 components: [
                     new ActionRowBuilder<ButtonBuilder>()
