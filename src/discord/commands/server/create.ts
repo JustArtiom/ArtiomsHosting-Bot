@@ -116,7 +116,6 @@ export default <DefaultCommand> {
             method: "POST",
             data: server_config.default(user.pteroid, server_name || server_type+" server", config.settings.locations.free)
         }).then((res) => {
-            console.log(res)
             interaction.reply({
                 content: undefined,
                 embeds: [
