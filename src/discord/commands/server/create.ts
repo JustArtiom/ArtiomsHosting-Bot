@@ -145,7 +145,7 @@ export default <DefaultCommand> {
                     .setColor("Blue")
                     .setDescription(`Somthing went wrong and i couldnt create your server. ${
                         err?.response?.data?.errors?.length ? 
-                        `\n\nError Log: ${err?.response?.data?.errors.map((x: any) => `**${x.status}** - ${x.detail}`)}` : 
+                        `\n\n**Error Log:**\n ${err?.response?.data?.errors.map((x: any) => `**${x.status}** - ${x.detail}`)}` : 
                         ""
                     }`)
                 ]

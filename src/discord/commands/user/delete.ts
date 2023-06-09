@@ -140,7 +140,11 @@ export default <DefaultCommand> {
                     new EmbedBuilder()
                     .setTitle(":x: Could not delete your account")
                     .setColor("Red")
-                    .setDescription(`An error occoured and i couldnt delete your account. ${err?.response?.data?.errors ? "Error Log: \n\n" + err?.response?.data?.errors.map((x: {code: string, status: string, detail: string}) => `**${x.status}** - ${x.detail}`).join('\n') : ""}`)
+                    .setDescription(`An error occoured and i couldnt delete your account. ${
+                        err?.response?.data?.errors?.length ? 
+                        `\n\n**Error Log:**\n ${err?.response?.data?.errors.map((x: any) => `**${x.status}** - ${x.detail}`)}` : 
+                        ""
+                    }`)
                 ],
                 components: []
             })
