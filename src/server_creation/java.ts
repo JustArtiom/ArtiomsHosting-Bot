@@ -3,9 +3,9 @@ export default (userID: string, serverName: string, location: number[]) => {
         "name": serverName,
         "user": userID,
         "nest": 5,
-        "egg": 16,
-        "docker_image": "Python 3.11|ghcr.io/parkervcp/yolks:python_3.11",
-        "startup": 'if [[ -d .git ]] && [[ {{AUTO_UPDATE}} == "1" ]]; then git pull; fi; if [[ ! -z {{PY_PACKAGES}} ]]; then pip install -U --prefix .local {{PY_PACKAGES}}; fi; if [[ -f /home/container/${REQUIREMENTS_FILE} ]]; then pip install -U --prefix .local -r ${REQUIREMENTS_FILE}; fi; /usr/local/bin/python /home/container/{{BOT_PY_FILE}}',
+        "egg": 18,
+        "docker_image": "ghcr.io/parkervcp/yolks:java_19",
+        "startup": "java -Dterminal.jline=false -Dterminal.ansi=true -jar {{JARFILE}}",
         "limits": {
             "memory": 1024,
             "swap": 0,
@@ -14,10 +14,7 @@ export default (userID: string, serverName: string, location: number[]) => {
             "cpu": 0
         },
         "environment": {
-            "USER_UPLOAD": 0,
-            "AUTO_UPDATE": 0,
-            "PY_FILE": "index.py",
-            "REQUIREMENTS_FILE": "requirements.txt"
+            "JARFILE": "sneakyhub.jar"
         },
         "feature_limits": {
             "databases": 2,
