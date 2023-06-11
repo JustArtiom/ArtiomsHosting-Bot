@@ -12,6 +12,7 @@
     - [x] - Command converter
     - [x] - Request handler (pterodactyl requests)
     - [x] - Data collector (collecting info such as email and username)
+    - [ ] - Cooldown for commands
 - [ ] - Recover Cache
     - [ ] - Recover timer for deleting "account creation channels"
 - [ ] - Commands
