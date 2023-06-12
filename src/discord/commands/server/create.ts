@@ -2,7 +2,15 @@ import { DefaultCommand } from "../../../utils/types";
 import fs from "node:fs";
 import { userData } from "../../../db";
 import validatorCheck from "../../../utils/validatorCheck";
-import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, CacheType, ComponentType, EmbedBuilder } from "discord.js";
+import { 
+    ActionRowBuilder, 
+    ButtonBuilder, 
+    ButtonInteraction, 
+    ButtonStyle, 
+    CacheType, 
+    ComponentType, 
+    EmbedBuilder 
+} from "discord.js";
 import { catchHandler } from "../../../utils/console";
 import request from "../../../utils/request";
 import config from "../../../../config";
@@ -54,7 +62,7 @@ export default <DefaultCommand> {
         ]}).catch(catchHandler("Bot"))
         let servers = account_w_servers.attributes.relationships.servers.data;
 
-        let buttoninteraction: ButtonInteraction<CacheType> | void;
+        let buttoninteraction: ButtonInteraction<CacheType> | void | undefined;
         if(servers.length >= 5) {
             const msg = await interaction.reply({
                 embeds: [

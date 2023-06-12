@@ -207,7 +207,7 @@ export default <DefaultCommand> {
             }
         ]
 
-        if(config.mail.enabled && config.settings.verifyEmail) {
+        if(config.mailer.enabled && config.settings.verifyEmail) {
             const pin6 = Math.floor(100000 + Math.random() * 900000)
             toCollect.push({
                 id: "pin6",
@@ -220,7 +220,7 @@ export default <DefaultCommand> {
                 },
                 run: async (collectedData) => {
                     let mail = await mailer.sendMail({
-                        from: config.mail.auth.user, 
+                        from: config.mailer.auth.user, 
                         to: collectedData.find(x => x.id === "email")?.data, 
                         subject: `${pin6} - Here is your 6pin code`, 
                         text: `Thank you for regestiring at ArtiomsHosting. Your 6pin verification code is: ${pin6}\n\nThanks and have a nice day!\nArtiomsHosting`, 
