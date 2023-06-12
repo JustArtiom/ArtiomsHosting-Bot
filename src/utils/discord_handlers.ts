@@ -1,7 +1,7 @@
 import { Client, Interaction } from "discord.js";
 import fs from "fs";
 import { getCommands } from "./getCommands";
-import { catchHandler } from "./console";
+import { catchHandler, log } from "./console";
 
 export const eventHandler = async (client: Client) => {
 
@@ -31,8 +31,11 @@ export const commandHandler = async (client: Client, interaction: Interaction) =
         return false
     }
 
-    command.run(client, interaction).catch((err: string) => {
-        catchHandler(" / ")(err)
+    log({name: " / ",description:     `[    Run    ] ${interaction.user.tag} => ${interaction.commandName ? "/"+interaction.commandName : ""}/${command?.name}`})
+    command.run(client, interaction).then(() => {
+        log({name: " / ",description: `[ Completed ] ${interaction.user.tag} => ${interaction.commandName ? "/"+interaction.commandName : ""}/${command?.name}`})
+    }).catch((err: string) => {
+        catchHandler(" / ")(` ${interaction.user.tag} => ${interaction.commandName ? "/"+interaction.commandName : ""}/${command?.name}`)
         console.log(err)
         interaction.reply(`:x: ${err}`).catch(() => {})
     })
