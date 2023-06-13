@@ -20,5 +20,3 @@ const client = new Client({
 });
 
 main(client);
-
-client.login(config.bot.token);

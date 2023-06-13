@@ -31,7 +31,9 @@ export const main = async (client: Client) => {
             console.log(res)
             if(logthis) log({name: "Github", description: `${chalk.red("[ IMPORTANT ]")} BOT IS GOING TO SHUT DOWN TO APPLY THE CHANGES`});
             
+            client.login(config.bot.token);
             await once(client, "ready")
+
             const gitLog_chan = client.channels.cache.get(config.channels.gitLog)
             if(gitLog_chan && gitLog_chan.type === ChannelType.GuildText) await gitLog_chan.send({
                 embeds: [
@@ -41,7 +43,6 @@ export const main = async (client: Client) => {
                     .setDescription(`Changes in the github repo has been detected.\n\nChanges has been applied. Logs:\n\`\`\`diff\n${res}\n\`\`\`\n**Shut downing the bot**. Awaiting for restart.`)
                 ]
             })
-
             process.exit();
         }
 
@@ -49,7 +50,8 @@ export const main = async (client: Client) => {
         if(config.settings.autoUpdate.interval) setInterval(() => do_a_pull(false), config.settings.autoUpdate.interval);
     }
 
-    eventHandler(client)
+    await eventHandler(client);
+    client.login(config.bot.token);
 }
 
 
