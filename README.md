@@ -27,7 +27,7 @@ ArtiomsHosting Bot is a discord bot relying on [discord.js](https://discord.js.o
 # 📬 AutoUpdate from github
 AutoUpdate feature is a feature that allows automatic update from a github repo when changes are made. It can be found in config-example.ts on setting.autoUpdate. once enabled you can keep it by default if you want to update the bot from my repo, or convigure your repo.
 
-### Before using this feature you will have to do some git configurations
+### [Required] Git configuration
 ```sh
 git init
 git remote add origin <repo_url>
