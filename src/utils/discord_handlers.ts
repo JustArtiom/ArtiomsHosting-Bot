@@ -1,10 +1,46 @@
 import { Client, Interaction } from "discord.js";
-import fs from "fs";
 import { getCommands } from "./getCommands";
-import { catchHandler, log } from "./console";
+import { catchHandler, error, log } from "./console";
+import { gitPull } from "./gitSetup";
+import config from "../../config";
+import chalk from "chalk";
+import fs from "fs";
+
+export const main = async (client: Client) => {
+
+    console.log(chalk.hex('#6b7dfb')(`
+        _         _   _                     _   _           _   _
+       / \\   _ __| |_(_) ___  _ __ ___  ___| | | | ___  ___| |_(_)_ __   __ _
+      / _ \\ | '__| __| |/ _ \\| '_ \` _ \\/ __| |_| |/ _ \\/ __| __| | '_ \\ / _\` |
+     / ___ \\| |  | |_| | (_) | | | | | \\__ \\  _  | (_) \\__ \\ |_| | | | | (_| |
+    /_/   \\_\\_|   \\__|_|\\___/|_| |_| |_|___/_| |_|\\___/|___/\\__|_|_| |_|\\__, |
+                   ${chalk.hex('#8290F8')('© 2022 ArtiomsHosting. All rights reserved.')}          |___/
+    `))
+
+
+    if(config.settings.autoUpdate.enabled) {
+        log({name: "Github", description: "Checking for updates..."});
+
+        const res = await gitPull().catch((i) => ({err: true, error: i}))
+
+        if(typeof res !== "string"){
+            error({name: "Github", description: "Coudlnt run the command in the virtual console. Error:"})
+            console.log(res.error)
+        } else if(!res.includes(`From ${config.settings.autoUpdate.github}`)) {
+            error({name: "Github", description: "Coudlnt pull from the repo. Did you initialize git? Log:"})
+            console.log(res)
+        } else if(res.includes("Already up to date.")) {
+            log({name: "Github", description: "Code is up to date"});
+        } else {
+            log({name: "Github", description: `${chalk.red("[ IMPORTANT ]")} BOT WAS UPDATED. PREPARING TO SHUT DOWN....`});
+        }
+    }
+
+    eventHandler(client)
+}
+
 
 export const eventHandler = async (client: Client) => {
-
     const event_files = fs.readdirSync(`.${__filename.endsWith(".js") ? "/dist" : ""}/src/discord/events`)
     .filter(file => file.endsWith('.ts') || file.endsWith(".js"));
 
