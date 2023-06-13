@@ -1,5 +1,5 @@
 # To do
-### Bot:
+### Commands:
 - [ ] - Finish to-do list 😂
 - [x] - Setup configurations (packages, config, etc.)
 - [x] - Main files and base of the bot
@@ -13,6 +13,7 @@
     - [x] - Request handler (pterodactyl requests)
     - [x] - Data collector (collecting info such as email and username)
     - [ ] - Cooldown for commands
+    - [ ] - Github autoupdate
 - [ ] - Recover Cache
     - [ ] - Recover timer for deleting "account creation channels"
 - [ ] - Commands
@@ -21,14 +22,36 @@
     - [ ] - user
         - [x] - new
         - [x] - delete
-        - [ ] - link
-        - [ ] - password
+        - [x] - password
         - [ ] - balance
-        - [ ] - servers
     - [ ] - server
         - [x] - create
-        - [x] - delete
+        - [ ] - create-premium
         - [ ] - update
+        - [x] - delete
         - [ ] - list
     - [ ] - staff 
         - [ ] - lockdown
+
+## Eggs:
+- [ ] Languages
+    - [ ] AIO
+    - [ ] NodeJS
+    - [ ] Python
+    - [ ] Java
+    - [ ] GoLang
+- [ ] Voice servers
+    - [ ] Lavalink
+    - [ ] TeamSpeak 
+    - [ ] Mumble
+- [ ] Databse
+    - [ ] MongoDB
+    - [ ] Redis
+    - [ ] MariaDB
+    - [ ] Postgress
+- [ ] Software
+    - [ ] CodeServer
+    - [ ] Haste
+    - [ ] UptimeKuma
+    - [ ] ShareX (maybe)
+    - [ ] ts3_manager

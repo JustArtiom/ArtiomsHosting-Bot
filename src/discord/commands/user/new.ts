@@ -24,7 +24,6 @@ export default <DefaultCommand> {
     name: "new",
     description: "Create an account on ArtiomsHosting",
     run: async (client, interaction) => {
-
         let validation1 = await validatorCheck([
             {
                 callback: async () => !!await userData.get(interaction.user.id),
