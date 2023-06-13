@@ -13,6 +13,7 @@ ArtiomsHosting Bot is a discord bot relying on [discord.js](https://discord.js.o
 - Show realtime status of the servers
 - API backend allowing third parties to contribute
 - Debugging and analysing tools 
+- AutoUpdate from github. keep your bot up to date
 
 # ⚙️ Environment setup
 > To ensure compliance with copyright laws, it is crucial to thoroughly understand and carefully review the License before utilizing the source code.
@@ -23,4 +24,12 @@ ArtiomsHosting Bot is a discord bot relying on [discord.js](https://discord.js.o
 4. Deploy the commands: `npm run deploy`
 5. Start the bot: `npm start`
 
-# 👨‍💻 Development
+# 📬 AutoUpdate from github
+AutoUpdate feature is a feature that allows automatic update from a github repo when changes are made. It can be found in config-example.ts on setting.autoUpdate. once enabled you can keep it by default if you want to update the bot from my repo, or convigure your repo.
+
+### Before using this feature you will have to do some git configurations
+```sh
+git init
+git remote add origin <repo_url>
+git checkout <branch_name>
+```
