@@ -21,15 +21,14 @@ export const main = async (client: Client) => {
         log({name: "Github", description: "Checking for updates..."});
 
         async function do_a_pull(logthis: boolean) {
-            const res = await gitPull().catch((i) => {
-                if(logthis) error({name: "Github", description: "Couldnt pull from the repo. Log:"})
-                console.log(i)
-            })
-            if(!res) return
+            const res = await gitPull().catch(() => {})
+            if(!res) return error({name: "Github", description: "Error running virtual console"})
 
-            if(logthis) log({name: "Github", description: `${chalk.red("[ IMPORTANT ]")} BOT WAS UPDATED. LOGS:`});
+            if(logthis && res.includes("Already up to date.")) return log({name: "Github", description: "Bot is up to date"})
+
+            log({name: "Github", description: `${chalk.red("[ IMPORTANT ]")} BOT WAS UPDATED. LOGS:`});
             console.log(res)
-            if(logthis) log({name: "Github", description: `${chalk.red("[ IMPORTANT ]")} BOT IS GOING TO SHUT DOWN TO APPLY THE CHANGES`});
+            log({name: "Github", description: `${chalk.red("[ IMPORTANT ]")} BOT IS GOING TO SHUT DOWN TO APPLY THE CHANGES`});
             
             client.login(config.bot.token);
             await once(client, "ready")

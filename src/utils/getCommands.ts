@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, SlashCommandSubcommandBuilder } from 'discord.js';
+import { RESTPostAPIChatInputApplicationCommandsJSONBody, SlashCommandBuilder, SlashCommandSubcommandBuilder } from 'discord.js';
 import fs from 'fs';
 import { DefaultCommand } from "./types"
 
@@ -39,7 +39,7 @@ export const convertCommands = ({commands, subcommands}: {
         [key: string]: DefaultCommand[];
     }
 }) => {
-    let data = []
+    let data: RESTPostAPIChatInputApplicationCommandsJSONBody[] = []
 
     for(let command of commands){
         let slash = new SlashCommandBuilder()
