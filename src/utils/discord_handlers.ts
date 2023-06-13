@@ -1,6 +1,6 @@
 import { Client, Interaction } from "discord.js";
 import { getCommands } from "./getCommands";
-import { catchHandler, error, log } from "./console";
+import { catchHandler, error, log, warn } from "./console";
 import { gitPull } from "./gitSetup";
 import config from "../../config";
 import chalk from "chalk";
@@ -23,16 +23,18 @@ export const main = async (client: Client) => {
 
         const res = await gitPull().catch((i) => ({err: true, error: i}))
 
-        if(typeof res !== "string"){
-            error({name: "Github", description: "Coudlnt run the command in the virtual console. Error:"})
-            console.log(res.error)
-        } else if(!res.includes(`From ${config.settings.autoUpdate.github}`)) {
-            error({name: "Github", description: "Coudlnt pull from the repo. Did you initialize git? Log:"})
-            console.log(res)
-        } else if(res.includes("Already up to date.")) {
+        if(typeof res === "string" && res.includes("Already up to date.")){
             log({name: "Github", description: "Code is up to date"});
+        } else if (typeof res !== "string" && res.error.includes(`${config.settings.autoUpdate.branch} -> FETCH_HEAD`)) {
+            warn({name: "Github", description: "It appears that you have changes in your code so you cannot pull from github untill you declare the changes"})
+        } else if(typeof res !== "string"){
+            error({name: "Github", description: "Couldnt pull from the repo. Log:"})
+            console.log(res.error)
         } else {
-            log({name: "Github", description: `${chalk.red("[ IMPORTANT ]")} BOT WAS UPDATED. PREPARING TO SHUT DOWN....`});
+            log({name: "Github", description: `${chalk.red("[ IMPORTANT ]")} BOT WAS UPDATED. LOGS:`});
+            console.log(res)
+            log({name: "Github", description: `${chalk.red("[ IMPORTANT ]")} BOT IS GOING TO SHUT DOWN TO APPLY THE CHANGES`});
+            process.exit();
         }
     }
 

@@ -16,8 +16,8 @@ export const gitSetup = async ({ log }: { log?: boolean } = {}) => {
     if(!gitinit || gitinit.includes("Reinitialized existing Git repository in")) 
         throw new Error("You already have initialised git. If you want to reinitiate git please delte \".git\" folder")
     
-    await runCommand(`git remote add origin ${config.settings.autoUpdate.github}`).catch(() => {})
-    await runCommand(`git checkout -b ${config.settings.autoUpdate.branch}`).catch(() => {})
+    await runCommand(`git remote add origin ${config.settings.autoUpdate.github}`)
+    await runCommand(`git checkout -b ${config.settings.autoUpdate.branch}`)
 }
 
 export const gitPull = () => runCommand(`git pull origin ${config.settings.autoUpdate.branch}`)
