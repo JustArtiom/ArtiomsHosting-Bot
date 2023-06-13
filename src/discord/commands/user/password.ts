@@ -108,7 +108,7 @@ ArtiomsHosting`
         await interaction.reply({
             embeds: [
                 new EmbedBuilder()
-                .setTitle("Chekc your email or dms")
+                .setTitle("Check your email or DMs")
                 .setColor("Green")
             ]
         })
