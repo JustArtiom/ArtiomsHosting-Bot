@@ -22,7 +22,7 @@ export const gitSetup = async ({ log }: { log?: boolean } = {}) => {
     if(log) consolelog({name: "Github", description: `${chalk.green("Pass.")} git file has been successfully configured`})
 }
 
-export const gitPull = () => runCommand(`git pull origin ${config.settings.autoUpdate.branch}`)
+export const gitPull = () => runCommand(`git pull origin ${config.settings.autoUpdate.branch} --rebase`)
 
 if(process.argv[2] === "gitinit") {
     gitSetup({ log: true })
