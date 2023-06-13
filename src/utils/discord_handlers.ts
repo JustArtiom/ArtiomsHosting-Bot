@@ -20,38 +20,33 @@ export const main = async (client: Client) => {
     if(config.settings.autoUpdate.enabled) {
         log({name: "Github", description: "Checking for updates..."});
 
-        async function do_a_pull() {
-            const res = await gitPull().catch((i) => ({err: true, error: i}))
+        async function do_a_pull(logthis: boolean) {
+            const res = await gitPull().catch((i) => {
+                if(logthis) error({name: "Github", description: "Couldnt pull from the repo. Log:"})
+                console.log(i)
+            })
+            if(!res) return
 
-            if(typeof res === "string" && res.includes("Already up to date.")){
-                log({name: "Github", description: "Code is up to date"});
-            } else if (typeof res !== "string" && res.error.includes(`${config.settings.autoUpdate.branch} -> FETCH_HEAD`)) {
-                warn({name: "Github", description: "It appears that you have changes in your code so you cannot pull from github untill you declare the changes"})
-            } else if(typeof res !== "string"){
-                error({name: "Github", description: "Couldnt pull from the repo. Log:"})
-                console.log(res.error)
-            } else {
-                log({name: "Github", description: `${chalk.red("[ IMPORTANT ]")} BOT WAS UPDATED. LOGS:`});
-                console.log(res)
-                log({name: "Github", description: `${chalk.red("[ IMPORTANT ]")} BOT IS GOING TO SHUT DOWN TO APPLY THE CHANGES`});
-                await once(client, "ready")
-                const gitLog_chan = client.channels.cache.get(config.channels.gitLog)
-                
-                if(gitLog_chan && gitLog_chan.type === ChannelType.GuildText) await gitLog_chan.send({
-                    embeds: [
-                        new EmbedBuilder()
-                        .setTitle("📬 AutoUpdate from github")
-                        .setColor("Blue")
-                        .setDescription(`Changes in the github repo has been detected.\n\nChanges has been applied. Logs:\n\`\`\`diff\n${res}\n\`\`\`\n**Shut downing the bot**. Awaiting for restart.`)
-                    ]
-                })
+            if(logthis) log({name: "Github", description: `${chalk.red("[ IMPORTANT ]")} BOT WAS UPDATED. LOGS:`});
+            console.log(res)
+            if(logthis) log({name: "Github", description: `${chalk.red("[ IMPORTANT ]")} BOT IS GOING TO SHUT DOWN TO APPLY THE CHANGES`});
+            
+            await once(client, "ready")
+            const gitLog_chan = client.channels.cache.get(config.channels.gitLog)
+            if(gitLog_chan && gitLog_chan.type === ChannelType.GuildText) await gitLog_chan.send({
+                embeds: [
+                    new EmbedBuilder()
+                    .setTitle("📬 AutoUpdate from github")
+                    .setColor("Blue")
+                    .setDescription(`Changes in the github repo has been detected.\n\nChanges has been applied. Logs:\n\`\`\`diff\n${res}\n\`\`\`\n**Shut downing the bot**. Awaiting for restart.`)
+                ]
+            })
 
-                process.exit();
-            }
+            process.exit();
         }
 
-        await do_a_pull();
-        if(config.settings.autoUpdate.interval) setInterval(do_a_pull, config.settings.autoUpdate.interval);
+        await do_a_pull(true);
+        if(config.settings.autoUpdate.interval) setInterval(() => do_a_pull(false), config.settings.autoUpdate.interval);
     }
 
     eventHandler(client)
