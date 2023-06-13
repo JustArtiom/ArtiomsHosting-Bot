@@ -23,7 +23,6 @@ export const main = async (client: Client) => {
         async function do_a_pull(logthis: boolean) {
             const res = await gitPull().catch(() => {})
             if(!res) return error({name: "Github", description: "Error running virtual console"})
-
             if(logthis && res.includes("Already up to date.")) return log({name: "Github", description: "Bot is up to date"})
 
             log({name: "Github", description: `${chalk.red("[ IMPORTANT ]")} BOT WAS UPDATED. LOGS:`});
@@ -39,7 +38,7 @@ export const main = async (client: Client) => {
                     new EmbedBuilder()
                     .setTitle("📬 AutoUpdate from github")
                     .setColor("Blue")
-                    .setDescription(`Changes in the github repo has been detected.\n\nChanges has been applied. Logs:\n\`\`\`diff\n${res}\n\`\`\`\n**Shut downing the bot**. Awaiting for restart.`)
+                    .setDescription(`Changes in the github repo has been detected.\n\nChanges has been applied. Logs:\n\`\`\`diff\n${res}\n\`\`\`\n**Shutting down the bot.** Awaiting for restart.`)
                 ]
             })
             process.exit();
