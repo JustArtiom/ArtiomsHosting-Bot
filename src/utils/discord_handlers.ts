@@ -6,6 +6,9 @@ import config from "../../config";
 import chalk from "chalk";
 import fs from "fs";
 import { once } from "node:events"
+
+let clientloggedincalled = false;
+
 export const main = async (client: Client) => {
 
     console.log(chalk.hex('#6b7dfb')(`
@@ -35,8 +38,11 @@ export const main = async (client: Client) => {
             console.log(res.stdout)
             log({name: "Github", description: `${chalk.red("[ IMPORTANT ]")} BOT IS GOING TO SHUT DOWN TO APPLY THE CHANGES`});
 
-            client.login(config.bot.token);
-            await once(client, "ready")
+            if(!client.isReady()){
+                (client as Client<false>).login(config.bot.token);
+                await once(client, "ready")
+            }
+
 
             const gitLog_chan = client.channels.cache.get(config.channels.gitLog)
             if(gitLog_chan && gitLog_chan.type === ChannelType.GuildText) await gitLog_chan.send({
