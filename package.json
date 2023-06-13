@@ -6,6 +6,7 @@
   "scripts": {
     "start": "npx tsc && node .",
     "deploy": "npx tsc && node ./dist/src/utils/deploy deploy",
+    "gitinit": "npx tsc && node ./dist/src/utils/gitSetup gitinit",
     "ts-start": "npx ts-node src/index.ts",
     "ts-deploy": "npx ts-node src/utils/deploy.ts deploy"
   },
