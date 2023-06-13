@@ -19,7 +19,7 @@ export default {
         createAccount: ""
     },
     channels: {
-        gitLog: "",
+        gitLog: ""
     },
     roles: {
         beta_testers: "",
