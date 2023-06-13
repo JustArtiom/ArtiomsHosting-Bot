@@ -23,12 +23,18 @@ export const main = async (client: Client) => {
         async function do_a_pull(logthis: boolean) {
             const res = await gitPull().catch(() => {})
             if(!res) return error({name: "Github", description: "Error running virtual console"})
-            if(logthis && res.includes("Already up to date.")) return log({name: "Github", description: "Bot is up to date"})
 
+            if(res.stdout.includes("Already up to date.")) {
+                if(logthis) log({name: "Github", description: "Bot is up to date"})
+                return
+            }
+
+            if(!res.stdout.includes("Updating")) return 
             log({name: "Github", description: `${chalk.red("[ IMPORTANT ]")} BOT WAS UPDATED. LOGS:`});
-            console.log(res)
+            console.log(res.stderr)
+            console.log(res.stdout)
             log({name: "Github", description: `${chalk.red("[ IMPORTANT ]")} BOT IS GOING TO SHUT DOWN TO APPLY THE CHANGES`});
-            
+
             client.login(config.bot.token);
             await once(client, "ready")
 
@@ -38,7 +44,7 @@ export const main = async (client: Client) => {
                     new EmbedBuilder()
                     .setTitle("📬 AutoUpdate from github")
                     .setColor("Blue")
-                    .setDescription(`Changes in the github repo has been detected.\n\nChanges has been applied. Logs:\n\`\`\`diff\n${res}\n\`\`\`\n**Shutting down the bot.** Awaiting for restart.`)
+                    .setDescription(`Changes in the github repo has been detected.\n\nChanges has been applied. Logs:\n\`\`\`diff\n${res.stdout}\n\`\`\`\n**Shutting down the bot.** Awaiting for restart.`)
                 ]
             })
             process.exit();
