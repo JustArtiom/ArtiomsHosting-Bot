@@ -1,7 +1,7 @@
 import { ChannelType, Client, EmbedBuilder, Interaction } from "discord.js";
 import { getCommands } from "./getCommands";
 import { catchHandler, error, log, warn } from "./console";
-import { gitPull } from "./gitSetup";
+import { gitPull } from "./git";
 import config from "../../config";
 import chalk from "chalk";
 import fs from "fs";
