@@ -43,7 +43,6 @@ export const main = async (client: Client) => {
                 await once(client, "ready")
             }
 
-
             const gitLog_chan = client.channels.cache.get(config.channels.gitLog)
             if(gitLog_chan && gitLog_chan.type === ChannelType.GuildText) await gitLog_chan.send({
                 embeds: [
