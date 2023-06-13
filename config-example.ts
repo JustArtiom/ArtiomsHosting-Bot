@@ -4,11 +4,23 @@ export default {
         maintenance: true,
         verifyEmail: true,
         timeout: 3000,
+        locations: {
+            free: [2],
+            premium: [3]
+        },
+        autoUpdate: {
+            enabled: true,
+            github: "https://gthub.com/JustArtiom/ArtiomsHosting-Bot",
+            branch: "development",
+            interval: 30_000
+        }
     },
     categories: {
         createAccount: ""
     },
-    channels: {},
+    channels: {
+        gitLog: "",
+    },
     roles: {
         beta_testers: "",
         client: ""
