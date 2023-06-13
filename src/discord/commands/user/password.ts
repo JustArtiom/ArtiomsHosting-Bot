@@ -63,16 +63,16 @@ export default <DefaultCommand> {
         await interaction.user.send({
             embeds: [
                 new EmbedBuilder()
-                .setTitle("Password updates")
+                .setTitle("Account updates")
                 .setColor("Blue")
                 .setDescription(`
-We are reaching out to inform you that there have been recent updates to the password for your account. As part of our ongoing efforts to ensure the security of our users' information, we periodically update passwords to help protect your account from unauthorized access.
+We are reaching out to inform you that there with the password that has been requested to be reset.
 
 **Your new password is:** ||${newPassword}||
 
 To maintain the confidentiality of your account, we recommend that you change this password as soon as possible after logging in. Please remember to create a unique and strong password that is not easily guessable.
 
-If you have any questions or concerns regarding this update, please don't hesitate to contact our support team at \`contact@artiom.host\`. We are here to assist you and provide any necessary guidance.
+If you have any questions or concerns regarding this update, please don't hesitate to contact our support team at \`contact@artiom.host\` or message the company owner. We are here to assist you and provide any necessary guidance.
 
 Thank you for your attention to this matter. We appreciate your cooperation in keeping your account secure.`)
             ]
