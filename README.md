@@ -18,9 +18,9 @@ ArtiomsHosting Bot is a discord bot relying on [discord.js](https://discord.js.o
 > To ensure compliance with copyright laws, it is crucial to thoroughly understand and carefully review the License before utilizing the source code.
 1. Download [node.js](https://nodejs.org/en/download)
 2. Download the source code
-3. Setup **config.js**
-3. Install the packages: `npm run init`
-4. Build the project: `npm run build`
-5. Run: `npm start`
+3. Setup **config.ts**
+3. Install the packages: `npm install`
+4. Deploy the commands: `npm run deploy`
+5. Start the bot: `npm start`
 
 # 👨‍💻 Development

@@ -13,7 +13,7 @@ export default {
         beta_testers: "",
         client: ""
     },
-    mail: {
+    mailer: {
         enabled: true,
         host: "",
         port: 465,
