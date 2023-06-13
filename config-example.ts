@@ -21,6 +21,10 @@ export default {
         auth: {
             user: '',
             pass: ''
+        },
+        tls: {
+            // Enable if you want to avoid SSL/TLS selfsigned certificates
+            rejectUnauthorized: false
         }
     },
     bot: {
