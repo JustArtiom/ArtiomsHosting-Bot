@@ -13,7 +13,7 @@
     - [x] - Request handler (pterodactyl requests)
     - [x] - Data collector (collecting info such as email and username)
     - [ ] - Cooldown for commands
-    - [ ] - Github autoupdate
+    - [x] - Github autoupdate
 - [ ] - Recover Cache
     - [ ] - Recover timer for deleting "account creation channels"
 - [ ] - Commands
