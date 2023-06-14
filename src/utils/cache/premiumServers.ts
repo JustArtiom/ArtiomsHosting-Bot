@@ -1,5 +1,7 @@
 import config from "../../../config";
+import { userData } from "../../db";
 import { catchHandler } from "../console";
+import WrapdactylSocket from "../pteroSocketManager";
 import request from "../request";
 
 export interface serverAttributes {
@@ -40,6 +42,7 @@ export interface Resources {
 
 class premiumServersClass {
     constructor(){}
+    manualUpdatedCache = new Map<string, serverAttributes>()
     cache = new Map<string, serverAttributes>()
 
     updateCache = async () => {
@@ -108,6 +111,41 @@ class premiumServersClass {
 
     monitorCharges = async () => {
         if(!this.cache.size) return
+        const unconnected_servers = Array.from(this.cache.values()).filter(x => !this.manualUpdatedCache.get(x.identifier))
+        
+        for(let server of unconnected_servers) {
+            const ws = new WrapdactylSocket(config.ptero, server.identifier);
+
+            let onlineSince: number | undefined = undefined;
+            let interval: NodeJS.Timer | undefined;
+
+            ws.on("status", async (status: string) => {
+                const user = (await userData.all()).filter(({value}) => value.pteroid === server.user)[0]
+                const price = await this.calculatePrice({cpu: server.limits.cpu, ram: server.limits.memory, disk: server.limits.disk})
+                
+                if(status === "running") {
+                    onlineSince = Date.now();
+                    interval = setInterval(async () => {
+                        userData.sub(user?.id+".balance", price?.hourly || 0)
+                        onlineSince = Date.now()
+                        console.log(price?.hourly)
+                    }, 3_600_000)
+                    return 
+                }
+                if(!onlineSince || !price) return
+                if(interval) {
+                    clearInterval(interval)
+                    interval = undefined;
+                }
+
+                const howlong = (Date.now() - onlineSince) / 3_600_000;
+                const cost = howlong * price?.hourly
+                userData.sub(user?.id+".balance", cost)
+
+                onlineSince = undefined
+            })
+            ws.connect().catch(catchHandler("WS"));
+        }
     }
 }
 
