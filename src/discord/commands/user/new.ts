@@ -306,7 +306,10 @@ export default <DefaultCommand> {
             createdTimestamp: Date.now(),
         })
 
-        msg.member?.roles.add(config.roles.client).catch(catchHandler("Discord"))
+        if(msg.guild.roles.cache.get(config.roles.client)) 
+            msg.member?.roles.add(config.roles.client)
+            .catch(catchHandler("Discord"));
+        
         msg.edit({
             content: `${msg.author}`,
             embeds: [

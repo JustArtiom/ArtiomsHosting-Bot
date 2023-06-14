@@ -14,6 +14,8 @@
     - [x] - Data collector (collecting info such as email and username)
     - [ ] - Cooldown for commands
     - [x] - Github autoupdate
+    - [ ] - Verification system
+    - [ ] - Ticket system
 - [ ] - Recover Cache
     - [ ] - Recover timer for deleting "account creation channels"
 - [ ] - Commands
