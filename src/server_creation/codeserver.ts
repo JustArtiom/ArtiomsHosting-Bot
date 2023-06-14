@@ -1,4 +1,4 @@
-export default (userID: string, serverName: string, location: number[]) => ({
+export default (userID: string, serverName: string, location: number[], resources?: {cpu: number, ram: number, disk: number}) => ({
     "name": serverName,
     "user": userID,
     "nest": 7,
@@ -6,11 +6,11 @@ export default (userID: string, serverName: string, location: number[]) => ({
     "docker_image": "ghcr.io/parkervcp/yolks:nodejs_18",
     "startup": "sh .local/lib/code-server-{{VERSION}}/bin/code-server",
     "limits": {
-        "memory": 1024,
+        "memory": resources?.ram || 1024,
         "swap": 0,
-        "disk": 3072,
+        "disk": resources?.disk || 3072,
         "io": 500,
-        "cpu": 0
+        "cpu": resources?.cpu || 0
     },
     "environment": {
         "PASSWORD": `${(Math.random() + 1).toString(36).substring(2)}`,

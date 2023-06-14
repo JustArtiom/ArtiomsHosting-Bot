@@ -1,8 +1,16 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType, EmbedBuilder } from "discord.js";
+import { 
+    ActionRowBuilder, 
+    ButtonBuilder, 
+    ButtonStyle,
+    ComponentType, 
+    EmbedBuilder,
+    StringSelectMenuBuilder, 
+    StringSelectMenuOptionBuilder 
+} from "discord.js";
 import { DefaultCommand } from "../../../utils/types";
-import validatorCheck from "../../../utils/validatorCheck";
 import { premiumServers } from "../../../utils/cache/premiumServers";
-import { catchHandler } from "../../../utils/console";
+import { createPremiumServer } from "./create-premium";
+import fs from "node:fs";
 
 export default <DefaultCommand> {
     name: "premium-calculator",
@@ -51,6 +59,12 @@ export default <DefaultCommand> {
             ]
         })
 
+        const button = new ButtonBuilder()
+            .setCustomId('buy_server')
+            .setLabel('Buy now')
+            .setEmoji("🛒")
+            .setStyle(ButtonStyle.Secondary);
+
         const msg = await interaction.reply({
             embeds: [
                 new EmbedBuilder()
@@ -66,13 +80,7 @@ export default <DefaultCommand> {
             ],
             components: [
                 new ActionRowBuilder<ButtonBuilder>()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('Buy now')
-                        .setLabel('Yes')
-                        .setEmoji("🛒")
-                        .setStyle(ButtonStyle.Secondary),
-                )
+                .addComponents(button)
             ]
         })
 
@@ -84,5 +92,57 @@ export default <DefaultCommand> {
             componentType: ComponentType.Button,
             time: 300_000,
         }).catch(() => {});
+
+        if(!legalCollector) return msg.edit({
+            components: [
+                new ActionRowBuilder<ButtonBuilder>()
+                .addComponents(button.setDisabled(true))
+            ]
+        });
+
+        const selectMenuCompenent = new StringSelectMenuBuilder()
+        .setCustomId('buy_premium_server_type_menu')
+        .setPlaceholder('What server type do you want?')
+        .addOptions(
+            fs.readdirSync(`${__filename.endsWith(".js") ? "./dist" : "."}/src/server_creation`)
+                .map(x => (
+                    new StringSelectMenuOptionBuilder()
+                    .setLabel(x.slice(0, x.length-3))
+                    .setValue(x.slice(0, x.length-3))
+                )),
+        )
+
+        msg.edit({
+            components: [
+                new ActionRowBuilder<StringSelectMenuBuilder>()
+                .addComponents(selectMenuCompenent),
+            ]
+        })
+
+        const menuSelector = await msg.awaitMessageComponent({ 
+            filter: (i) => {
+                return i.user.id === interaction.user.id
+            }, 
+            componentType: ComponentType.StringSelect,
+            time: 300_000,
+        }).catch(() => {});
+
+        msg.edit({
+            components: [
+                new ActionRowBuilder<StringSelectMenuBuilder>()
+                .addComponents(selectMenuCompenent.setDisabled(true))
+            ]
+        });
+        if(!menuSelector) return 
+        
+        await createPremiumServer({
+            interaction: menuSelector,
+            server_type: menuSelector.values[0],
+            resources: {
+                cpu: cpu * 100, 
+                ram: ram * 1024, 
+                disk: disk * 1024
+            }
+        })
     }
 }

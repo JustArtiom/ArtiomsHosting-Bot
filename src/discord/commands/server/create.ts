@@ -46,6 +46,17 @@ export default <DefaultCommand> {
                         .setColor("Red")
                     ]
                 }
+            }, 
+            {
+                callback: async () => !fs.readdirSync(`${__filename.endsWith(".js") ? "./dist" : "."}/src/server_creation`)
+                .map(x => x.slice(0, x.length-3)).includes(server_type),
+                interaction: {
+                    embeds: [
+                        new EmbedBuilder()
+                        .setTitle(":x: This server type is not available")
+                        .setColor("Red")
+                    ]
+                }
             }
         ]);
         if(!user || validation1) return interaction.reply(validation1).catch(catchHandler("Bot"));
@@ -87,13 +98,12 @@ export default <DefaultCommand> {
                     )
                 ]
             })
-            if(!msg) return 
 
             buttoninteraction = await msg.awaitMessageComponent({ 
                 filter: (i) => i.user.id === interaction.user.id, 
                 componentType: ComponentType.Button,
                 time: 300_000 
-            }).catch(catchHandler("Discord"));
+            }).catch(() => {});
 
             if(buttoninteraction?.customId === "DontCreateAnotherServer") {
                 buttoninteraction.deferUpdate();
