@@ -226,16 +226,9 @@ export default <DefaultCommand> {
                     }).catch((err) => {
                         catchHandler("Mail")(err)
                         console.log(err)
-                        channel?.send({embeds: [
-                            new EmbedBuilder()
-                            .setTitle("Error Sending the email")
-                            .setColor("Red")
-                            .setFooter({text: "Deleting this channel in 5 seconds..."})
-                        ]})
-                        setTimeout(() => {if(channel) channel.delete().catch(catchHandler("Discord"))}, 5000)
                     })
 
-                    if(!mail) return
+                    if(!mail) return true
                     const time = Date.now()
                     timedelay.set(time, interaction.user.id)
                     wait(3_600_000).then(() => {

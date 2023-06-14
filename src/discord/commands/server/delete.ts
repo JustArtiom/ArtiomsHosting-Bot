@@ -1,11 +1,9 @@
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType, EmbedBuilder } from "discord.js";
 import { DefaultCommand } from "../../../utils/types";
-import fs from "node:fs";
 import { userData } from "../../../db";
 import validatorCheck from "../../../utils/validatorCheck";
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType, EmbedBuilder } from "discord.js";
 import { catchHandler } from "../../../utils/console";
 import request from "../../../utils/request";
-import config from "../../../../config";
 
 export default <DefaultCommand> {
     name: "delete",

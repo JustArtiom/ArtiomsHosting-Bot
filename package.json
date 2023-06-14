@@ -4,7 +4,7 @@
   "description": "ArtiomsHosting bot v2 is a sophisticated Discord bot that functions as a comprehensive hosting service manager. It operates as a third-party software solution for Pterodactyl Panel, providing efficient management of server and user creation, modification, and deletion. Furthermore, the bot incorporates the API nest, enabling third-party websites to seamlessly interact with the integrated database.",
   "main": "dist/src/index.js",
   "scripts": {
-    "start": "npx tsc && node .",
+    "start": "npx tsc && node --no-warnings .",
     "deploy": "npx tsc && node ./dist/src/utils/deploy deploy",
     "gitinit": "npx tsc && node ./dist/src/utils/gitSetup gitinit",
     "ts-start": "npx ts-node src/index.ts",

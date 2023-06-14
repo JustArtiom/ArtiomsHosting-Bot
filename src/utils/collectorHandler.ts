@@ -39,7 +39,10 @@ export default async ({
                 return embed
             })()
         ], components: []});
-        if(run) run(collectedData);
+        if(run && await run(collectedData)) return { 
+            error: true, 
+            message: "Error sending the email..."
+        }
 
         for(var i = 1; i < (tries ? tries-1 : 7); i++) {
             if(typeof tries == "number" && tries <= 0) break

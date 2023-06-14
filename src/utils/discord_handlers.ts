@@ -7,8 +7,6 @@ import chalk from "chalk";
 import fs from "fs";
 import { once } from "node:events"
 
-let clientloggedincalled = false;
-
 export const main = async (client: Client) => {
 
     console.log(chalk.hex('#6b7dfb')(`
