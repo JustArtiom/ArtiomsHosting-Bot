@@ -6,6 +6,7 @@ import { inspect } from "util";
 import * as DataBaseImported from "../../db";
 import RequestImported from "../../utils/request";
 import MailerImported from "../../mailer";
+import { premiumServers as premsrvs } from "../../utils/cache/premiumServers";
 
 export default <DefaultCommand> {
     name: 'eval',
@@ -34,6 +35,7 @@ export default <DefaultCommand> {
         const { userData, db } = DataBaseImported;
         const request = RequestImported;
         const mailer = MailerImported;
+        const premiumServers = premsrvs;
 
         const toEval = interaction.options.getString("eval", true);
         const silent = interaction.options.getBoolean("silent")

@@ -74,7 +74,7 @@ function commandBuilder(slash: SlashCommandBuilder | SlashCommandSubcommandBuild
         command.stringOption.forEach(d => {
             slash.addStringOption(option => {
                 option.setName(d.name)
-                option.setDescription(d.name)
+                option.setDescription(d.description)
                 if(d.required) option.setRequired(true)
                 if(d.choices) option.addChoices(...d.choices)
                 if(d.autoComplete) option.setAutocomplete(true)
