@@ -18,6 +18,9 @@
     - [ ] - Ticket system
 - [ ] - Recover Cache
     - [ ] - Recover timer for deleting "account creation channels"
+    - [ ] - FREE SERVERS: check once 24 hours for servers that have been offline for more than 1 month and message&email the customer that his server will be deleted if not have interaction with it in 1 week.
+    - [ ] - FREE SERVERS: check once 24 hours for servers that have been unactive for more than 1 month and 1 week and delete them.
+    - [ ] - Connect to websockets and listen to "power" event and charge per hour.
 - [ ] - Commands
     - [x] - ping (most importnat)
     - [x] - eval
