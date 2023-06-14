@@ -6,7 +6,6 @@
   "scripts": {
     "start": "npx tsc && node --no-warnings .",
     "deploy": "npx tsc && node ./dist/src/utils/deploy deploy",
-    "nonstop": "npx nodemon --exec \"npx tsc && node --no-warnings .\" --ignore \"*\" --quiet",
     "ts-start": "npx ts-node src/index.ts",
     "ts-deploy": "npx ts-node src/utils/deploy.ts deploy"
   },

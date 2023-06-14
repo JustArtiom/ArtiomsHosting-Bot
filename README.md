@@ -24,8 +24,6 @@ ArtiomsHosting Bot is a discord bot relying on [discord.js](https://discord.js.o
 4. Deploy the commands: `npm run deploy`
 5. Start the bot: `npm start`
 
-> Hint: use `npm run nonstop` to make the code restart automatically everytime it crashes.
-
 # 📬 AutoUpdate from github
 AutoUpdate feature is a feature that allows automatic update from a github repo when changes are made. It can be found in config-example.ts on setting.autoUpdate. once enabled you can keep it by default if you want to update the bot from my repo, or convigure your repo.
 
