@@ -8,7 +8,6 @@ export default async (client: Client) => {
     if(!channels?.size) return
     const server_creation_channels = channels.filter(x => x?.parentId === config.categories.createAccount)
     
-    console.log(server_creation_channels.map(x => x?.createdTimestamp))
     for(let server of server_creation_channels) {
         if(server[1]) {
             if((Date.now() - server[1]?.createdTimestamp) >= 1_800_000) 
