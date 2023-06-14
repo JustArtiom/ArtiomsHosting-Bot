@@ -26,14 +26,7 @@ export default <DefaultCommand> {
 
         if(!user || validation1) return interaction.reply(validation1);
 
-        var newPassword = (() => {
-            const CAPSNUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-            var password = "";
-            while (password.length < 10) {
-                password += CAPSNUM[Math.floor(Math.random() * CAPSNUM.length)];
-            }
-            return password;
-        })();
+        var newPassword = (Math.random() + 1).toString(36).substring(2)
 
         const fetchedUser = await request({
             url: `/api/application/users/${user.pteroid}`,

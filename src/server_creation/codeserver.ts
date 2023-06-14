@@ -1,10 +1,10 @@
 export default (userID: string, serverName: string, location: number[]) => ({
     "name": serverName,
     "user": userID,
-    "nest": 5,
-    "egg": 18,
-    "docker_image": "ghcr.io/parkervcp/yolks:java_19",
-    "startup": "java -Dterminal.jline=false -Dterminal.ansi=true -jar {{JARFILE}}",
+    "nest": 7,
+    "egg": 23,
+    "docker_image": "ghcr.io/parkervcp/yolks:nodejs_18",
+    "startup": "sh .local/lib/code-server-{{VERSION}}/bin/code-server",
     "limits": {
         "memory": 1024,
         "swap": 0,
@@ -13,7 +13,8 @@ export default (userID: string, serverName: string, location: number[]) => ({
         "cpu": 0
     },
     "environment": {
-        "JARFILE": "sneakyhub.jar"
+        "PASSWORD": `${(Math.random() + 1).toString(36).substring(2)}`,
+        "VERSION": "latest"
     },
     "feature_limits": {
         "databases": 2,
