@@ -15,6 +15,32 @@ export default {
             // Location ids for people that have special access to special nodes
             premium: [3]
         },
+        pricing: {
+            cpu: {
+                // Price per core
+                price: 1.5,
+                // [ optional ] Reduce to the price, set 0 to disable
+                reduce_to: 1,
+                // [ optional ] If buyes more than x cores, set 0 to disable
+                if_buy_over: 4
+            },
+            ram: {
+                // Price per GB
+                price: 1,
+                // [ optional ] Reduce to the price, set 0 to disable
+                reduce_to: 0.75,
+                // [ optional ] If buyes more than x GB, set 0 to disable
+                if_buy_over: 4,
+            },
+            disk: {
+                // Price per GB
+                price: 0.2,
+                // [ optional ] Reduce to the price, set 0 to disable
+                reduce_to: 0.1,
+                // [ optional ] If buyes more than x GB, set 0 to disable
+                if_buy_over: 15,
+            }
+        },
         // Auto update from github.
         autoUpdate: {
             // Enable or disable this function
