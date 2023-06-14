@@ -29,7 +29,7 @@
         - [ ] - create-premium
         - [ ] - update
         - [x] - delete
-        - [ ] - list
+        - [x] - list
     - [ ] - staff 
         - [ ] - lockdown
 
