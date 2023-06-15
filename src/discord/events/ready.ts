@@ -13,7 +13,12 @@ export const event = async (client: Client<true>) => {
     else client.user.setPresence({ activities: [{ name: 'over happy customers', type: ActivityType.Watching }], status: 'online' });
 
     ServerCreationChannelsCache(client);
-    await premiumServers.updateCache();
-    premiumServers.updateCacheInterval(1_800_000);
-    premiumServers.monitorCharges();
+
+    if(config.settings.locations.premium.length){
+        log({name: "Cache", description: "Updating premium servers cache"});
+        await premiumServers.updateCache();
+        log({name: "Cache", description: "Premium servers cache updated, starting chargin and monitoring servers."});
+        premiumServers.updateCacheInterval(1_800_000);
+        premiumServers.monitorCharges();
+    }
 }

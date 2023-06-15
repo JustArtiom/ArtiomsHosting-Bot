@@ -1,6 +1,6 @@
 import config from "../../../config";
 import { userData } from "../../db";
-import { catchHandler } from "../console";
+import { catchHandler, log } from "../console";
 import WrapdactylSocket from "../pteroSocketManager";
 import request from "../request";
 import { setTimeout as wait } from "node:timers/promises"
