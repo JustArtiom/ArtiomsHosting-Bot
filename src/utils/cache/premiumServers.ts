@@ -135,7 +135,13 @@ class premiumServersClass {
                     onlineSince = Date.now();
                     interval = setInterval(async () => {
                         userData.sub(user?.id+".balance", price?.hourly || 0)
-                        chargesLogs.push(user?.id, {
+                        if(!await chargesLogs.get(user?.id)) chargesLogs.set(user?.id, [{
+                            timestamp: Date.now(), 
+                            price: price, 
+                            server_id: server.identifier, 
+                            amount: price?.hourly || 0
+                        }])
+                        else chargesLogs.push(user?.id, {
                             timestamp: Date.now(), 
                             price: price, 
                             server_id: server.identifier, 
@@ -161,13 +167,18 @@ class premiumServersClass {
                 const howlong = (Date.now() - onlineSince) / 3_600_000;
                 const cost = howlong * price?.hourly
                 userData.sub(user?.id+".balance", cost)
-                chargesLogs.push(user?.id, {
+                if(!await chargesLogs.get(user?.id)) chargesLogs.set(user?.id, [{
+                    timestamp: Date.now(), 
+                    price: price, 
+                    server_id: server.identifier, 
+                    amount: cost
+                }])
+                else chargesLogs.push(user?.id, {
                     timestamp: Date.now(), 
                     price: price, 
                     server_id: server.identifier, 
                     amount: cost
                 })
-
                 onlineSince = undefined
             })
             ws.connect().catch(catchHandler("WS"));
