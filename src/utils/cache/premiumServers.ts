@@ -131,22 +131,24 @@ class premiumServersClass {
                     return
                 }
 
+                const userLog = await chargesLogs.get(user?.id)
+
                 if(status === "running") {
                     onlineSince = Date.now();
                     interval = setInterval(async () => {
                         userData.sub(user?.id+".balance", price?.hourly || 0)
-                        if(!await chargesLogs.get(user?.id)) chargesLogs.set(user?.id, [{
+                        if(!userLog?.length) chargesLogs.set(user?.id, [{
                             timestamp: Date.now(), 
                             price: price, 
                             server_id: server.identifier, 
                             amount: price?.hourly || 0
                         }])
-                        else chargesLogs.push(user?.id, {
+                        else chargesLogs.set(user?.id, [...userLog, {
                             timestamp: Date.now(), 
                             price: price, 
                             server_id: server.identifier, 
                             amount: price?.hourly || 0
-                        })
+                        }])
                         onlineSince = Date.now()
 
                         if((await userData.get(user.id))?.balance || 1 <= 0) {
@@ -167,18 +169,18 @@ class premiumServersClass {
                 const howlong = (Date.now() - onlineSince) / 3_600_000;
                 const cost = howlong * price?.hourly
                 userData.sub(user?.id+".balance", cost)
-                if(!await chargesLogs.get(user?.id)) chargesLogs.set(user?.id, [{
+                if(!userLog?.length) chargesLogs.set(user?.id, [{
                     timestamp: Date.now(), 
                     price: price, 
                     server_id: server.identifier, 
                     amount: cost
                 }])
-                else chargesLogs.push(user?.id, {
+                else chargesLogs.set(user?.id, [...userLog, {
                     timestamp: Date.now(), 
                     price: price, 
                     server_id: server.identifier, 
                     amount: cost
-                })
+                }])
                 onlineSince = undefined
             })
             ws.connect().catch(catchHandler("WS"));
