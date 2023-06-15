@@ -61,11 +61,11 @@ class premiumServersClass {
         }
     }
 
-    updateCacheInterval = (interval: number) => {
-        setInterval(() => {
-            this.updateCache();
-        }, interval)
-    }
+    setInterval = (interval: number) => setInterval(async () => {
+        await this.updateCache();
+        await this.monitorCharges();
+    }, interval)
+    
 
     calculatePrice = async (identifier: string | Resources) => {
         const server_limits: Resources | undefined = typeof identifier === "string" ? 
@@ -118,7 +118,10 @@ class premiumServersClass {
 
             let onlineSince: number | undefined = undefined;
             let interval: NodeJS.Timer | undefined;
-
+            ws.on("connect", () => {
+                log({name: "$", description: `Connected and charging ${server.identifier}...`})
+                this.manualUpdatedCache.set(server.identifier, server)
+            })
             ws.on("status", async (status: string) => {
                 const user = (await userData.all()).filter(({value}) => value.pteroid === server.user)[0]
                 const price = await this.calculatePrice({cpu: server.limits.cpu, ram: server.limits.memory, disk: server.limits.disk})
