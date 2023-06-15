@@ -123,7 +123,8 @@ class premiumServersClass {
                 const user = (await userData.all()).filter(({value}) => value.pteroid === server.user)[0]
                 const price = await this.calculatePrice({cpu: server.limits.cpu, ram: server.limits.memory, disk: server.limits.disk})
                 
-                if(user.value.balance <= 0 && ["running", "stopping", "starting"].includes(status)) {
+                if(!user) return
+                if(user?.value.balance <= 0 && ["running", "stopping", "starting"].includes(status)) {
                     await wait(100)
                     ws.sendCommand("You have ran out of funds so you will not be able to use this server unless you top-up. Thanks, ArtiomsHosting");
                     ws.power("kill");
