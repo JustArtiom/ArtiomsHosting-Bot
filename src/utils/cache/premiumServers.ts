@@ -3,7 +3,7 @@ import { userData } from "../../db";
 import { catchHandler } from "../console";
 import WrapdactylSocket from "../pteroSocketManager";
 import request from "../request";
-
+import { setTimeout as wait } from "node:timers/promises"
 export interface serverAttributes {
     id: number,
     external_id: null,
@@ -123,12 +123,25 @@ class premiumServersClass {
                 const user = (await userData.all()).filter(({value}) => value.pteroid === server.user)[0]
                 const price = await this.calculatePrice({cpu: server.limits.cpu, ram: server.limits.memory, disk: server.limits.disk})
                 
+                if(user.value.balance <= 0 && ["running", "stopping", "starting"].includes(status)) {
+                    await wait(100)
+                    ws.sendCommand("You have ran out of funds so you will not be able to use this server unless you top-up. Thanks, ArtiomsHosting");
+                    ws.power("kill");
+                    return
+                }
+
                 if(status === "running") {
                     onlineSince = Date.now();
                     interval = setInterval(async () => {
                         userData.sub(user?.id+".balance", price?.hourly || 0)
                         onlineSince = Date.now()
-                        console.log(price?.hourly)
+
+                        if((await userData.get(user.id))?.balance || 1 <= 0) {
+                            clearInterval(interval)
+                            interval=undefined
+                            ws.power("kill");
+                            return
+                        }
                     }, 3_600_000)
                     return 
                 }
