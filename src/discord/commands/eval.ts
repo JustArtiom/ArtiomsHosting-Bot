@@ -32,7 +32,7 @@ export default <DefaultCommand> {
         ]});
 
         // For easy use in eval
-        const { userData, db } = DataBaseImported;
+        const { userData, db, chargesLogs } = DataBaseImported;
         const request = RequestImported;
         const mailer = MailerImported;
         const premiumServers = premsrvs;
