@@ -1,6 +1,6 @@
 import config from "../../../config";
 import { chargesLogs, userData } from "../../db";
-import { catchHandler, error, log, warn } from "../console";
+import { catchHandler, error, log } from "../console";
 import WrapdactylSocket from "../pteroSocketManager";
 import request from "../request";
 import { setTimeout as wait } from "node:timers/promises"
@@ -154,12 +154,16 @@ class premiumServersClass {
                         if(!userLog?.length) chargesLogs.set(user?.id, [{
                             timestamp: Date.now(), 
                             price: price, 
+                            discord_id: user.id,
+                            ptero_id: user.value.pteroid,
                             server_id: server.identifier, 
                             amount: price?.hourly || 0
                         }])
                         else chargesLogs.set(user?.id, [...userLog, {
                             timestamp: Date.now(), 
                             price: price, 
+                            discord_id: user.id,
+                            ptero_id: user.value.pteroid,
                             server_id: server.identifier, 
                             amount: price?.hourly || 0
                         }])
@@ -186,12 +190,16 @@ class premiumServersClass {
                 if(!userLog?.length) chargesLogs.set(user?.id, [{
                     timestamp: Date.now(), 
                     price: price, 
+                    discord_id: user.id,
+                    ptero_id: user.value.pteroid,
                     server_id: server.identifier, 
                     amount: cost
                 }])
                 else chargesLogs.set(user?.id, [...userLog, {
                     timestamp: Date.now(), 
                     price: price, 
+                    discord_id: user.id,
+                    ptero_id: user.value.pteroid,
                     server_id: server.identifier, 
                     amount: cost
                 }])

@@ -1,4 +1,13 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, ChatInputCommandInteraction, ComponentType, EmbedBuilder, StringSelectMenuInteraction } from "discord.js";
+import { 
+    ActionRowBuilder, 
+    ButtonBuilder, 
+    ButtonInteraction, 
+    ButtonStyle, 
+    ChatInputCommandInteraction, 
+    ComponentType, 
+    EmbedBuilder, 
+    StringSelectMenuInteraction 
+} from "discord.js";
 import { DefaultCommand } from "../../../utils/types";
 import validatorCheck from "../../../utils/validatorCheck";
 import { premiumServers } from "../../../utils/cache/premiumServers";

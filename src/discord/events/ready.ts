@@ -2,7 +2,6 @@ import { ActivityType, Client } from "discord.js";
 import { log, warn } from "../../utils/console";
 import chalk from "chalk";
 import config from "../../../config";
-import { setTimeout as wait } from "node:timers/promises"
 import ServerCreationChannelsCache from "../../utils/cache/serverCreationChannels";
 import { premiumServers } from "../../utils/cache/premiumServers";
 
