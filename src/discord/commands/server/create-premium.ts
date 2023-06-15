@@ -66,8 +66,7 @@ export default <DefaultCommand> {
                         .setColor("Red")
                     ]
                 }
-            },
-            {
+            }, {
                 callback: async () => (user?.balance || 0) <= 0,
                 interaction: {
                     embeds: [
@@ -76,13 +75,21 @@ export default <DefaultCommand> {
                         .setColor("Red")
                     ]
                 }
-            },
-            {
-                callback: async () => !cpu || !ram || !disk,
+            }, {
+                callback: async () => !cpu || !ram || !disk || [cpu, ram, disk].some(x => x < 0.25) || cpu > 8 || ram > 12 || disk > 50,
                 interaction: {
                     embeds: [
                         new EmbedBuilder()
                         .setTitle(":x: The values you entered for resources are invalid")
+                        .setColor("Red")
+                    ]
+                }
+            }, {
+                callback: () => [cpu, ram, disk].some(x => x < 0.25),
+                interaction: {
+                    embeds: [
+                        new EmbedBuilder()
+                        .setTitle(":x: The ")
                         .setColor("Red")
                     ]
                 }
@@ -210,7 +217,7 @@ export const createPremiumServer = async ({
                     .setColor("Red")
                 ]
             }
-        },
+        }
     ]);
 
     if(!user || validation1) 

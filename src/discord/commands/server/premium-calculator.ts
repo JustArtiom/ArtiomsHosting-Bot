@@ -37,10 +37,10 @@ export default <DefaultCommand> {
         const ram = Number(interaction.options.getString("ram", true));
         const disk = Number(interaction.options.getString("disk", true));
 
-        if(!cpu || !ram || !disk) return interaction.reply({
+        if(!cpu || !ram || !disk || [cpu, ram, disk].some(x => x < 0.25) || cpu > 8 || ram > 12 || disk > 50) return interaction.reply({
             embeds: [
                 new EmbedBuilder()
-                .setTitle(":x: The values must be only numbers")
+                .setTitle(":x: The values you entered for resources are invalid")
                 .setColor("Red")
             ]
         })
