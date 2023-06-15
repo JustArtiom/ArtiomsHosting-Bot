@@ -79,27 +79,21 @@ class premiumServersClass {
 
         const pricing = config.settings.pricing
         let price = {
-            cpu: 0,
-            ram: 0,
-            disk: 0,
+            cpu: server_limits.cpu / 100 * pricing.cpu.price,
+            ram: server_limits.ram / 1024 * pricing.ram.price,
+            disk: server_limits.disk / 1024 * pricing.disk.price,
         }
 
         if(pricing.cpu.if_buy_over && pricing.cpu.if_buy_over <= server_limits.cpu / 100){
             price.cpu = server_limits.cpu / 100 * pricing.cpu.reduce_to
-        } else {
-            price.cpu = server_limits.cpu / 100 * pricing.cpu.price
         }
 
         if(pricing.ram.if_buy_over && pricing.ram.if_buy_over <= server_limits.ram / 1024){
             price.ram = server_limits.ram / 1024 * pricing.ram.reduce_to
-        } else {
-            price.ram = server_limits.ram / 1024 * pricing.ram.price
         }
         
         if(pricing.disk.if_buy_over && pricing.disk.if_buy_over <= server_limits.disk / 1024){
             price.disk = server_limits.disk / 1024 * pricing.disk.reduce_to
-        } else {
-            price.disk = server_limits.disk / 1024 * pricing.disk.price
         }
 
         return {
