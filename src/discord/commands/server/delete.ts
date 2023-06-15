@@ -4,6 +4,8 @@ import { userData } from "../../../db";
 import validatorCheck from "../../../utils/validatorCheck";
 import { catchHandler } from "../../../utils/console";
 import request from "../../../utils/request";
+import config from "../../../../config";
+import { premiumServers } from "../../../utils/cache/premiumServers";
 
 export default <DefaultCommand> {
     name: "delete",
@@ -107,10 +109,18 @@ export default <DefaultCommand> {
             components: []
         })
 
-        request({
+        const node = await request({
+            url: `/api/application/nodes/${serverdata.attributes.node}`,
+            method: "GET"
+        }).catch(() => {})
+
+        await request({
             url: `/api/application/servers/${serverdata.attributes.id}/force`,
             method: "DELETE"
         }).then(() => {
+            if(node && config.settings.locations.premium.includes(node?.attributes?.location_id)) {
+                premiumServers.cache.delete(serverdata.attributes.identifier)
+            }
             interaction.followUp({
                 embeds: [
                     new EmbedBuilder()

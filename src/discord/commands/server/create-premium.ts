@@ -223,8 +223,7 @@ export const createPremiumServer = async ({
     }).then(async (i) => {
         const price = await premiumServers.calculatePrice(resources);
         premiumServers.cache.set(i.attributes.identifier,  i.attributes);
-
-        interaction.reply({
+        await interaction.reply({
             content: undefined,
             embeds: [
                 new EmbedBuilder()
@@ -247,6 +246,7 @@ export const createPremiumServer = async ({
                 )
             ]
         })
+        premiumServers.monitorCharges();
     }).catch((err) => {
         interaction.reply({
             embeds: [

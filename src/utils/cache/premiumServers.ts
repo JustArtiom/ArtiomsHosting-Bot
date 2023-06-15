@@ -1,6 +1,6 @@
 import config from "../../../config";
 import { chargesLogs, userData } from "../../db";
-import { catchHandler, log } from "../console";
+import { catchHandler, error, log, warn } from "../console";
 import WrapdactylSocket from "../pteroSocketManager";
 import request from "../request";
 import { setTimeout as wait } from "node:timers/promises"
@@ -56,14 +56,16 @@ class premiumServersClass {
             .catch(catchHandler("Cache"))
         }
         
+        if(!premServers.length) throw "No premium servers detected on the premium node";
+
         for (let server of premServers) {
             this.cache.set(server.attributes.identifier, server.attributes)
         }
     }
 
     setInterval = (interval: number) => setInterval(async () => {
-        await this.updateCache();
-        await this.monitorCharges();
+        await this.updateCache().catch(() => {});
+        await this.monitorCharges().catch(() => {});
     }, interval)
     
 
@@ -104,7 +106,7 @@ class premiumServersClass {
     }
 
     monitorCharges = async () => {
-        if(!this.cache.size) return
+        if(!this.cache.size) return error({name: " $ ", description: "Cache is not ready"})
         const unconnected_servers = Array.from(this.cache.values()).filter(x => !this.manualUpdatedCache.get(x.identifier))
         
         for(let server of unconnected_servers) {
@@ -112,10 +114,25 @@ class premiumServersClass {
 
             let onlineSince: number | undefined = undefined;
             let interval: NodeJS.Timer | undefined;
-            ws.on("connect", () => {
-                log({name: "$", description: `Connected and charging ${server.identifier}...`})
+            ws.on("connect", async() => {
+                log({name: " $ ", description: `${server.identifier} - Connected and charging ($${(await this.calculatePrice({
+                    cpu: server.limits.cpu,
+                    ram: server.limits.memory,
+                    disk: server.limits.disk
+                }))?.hourly.toFixed(6)} / h)`})
                 this.manualUpdatedCache.set(server.identifier, server)
+            });
+            ws.on("deleted", () => {
+                log({name: " $ ", description: `${server.identifier} - Server Deleted`})
+                this.cache.delete(server.identifier)
+            });
+            ws.on("tokenExpired", () => {
+                error({name: " $ ", description: `${server.identifier} - Token expired`})
             })
+            ws.on("disconnect", () => {
+                log({name: " $ ", description: `${server.identifier} - Server Dissconnected`})
+                this.cache.delete(server.identifier)
+            });
             ws.on("status", async (status: string) => {
                 const user = (await userData.all()).filter(({value}) => value.pteroid === server.user)[0]
                 const price = await this.calculatePrice({cpu: server.limits.cpu, ram: server.limits.memory, disk: server.limits.disk})

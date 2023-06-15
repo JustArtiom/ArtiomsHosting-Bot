@@ -89,11 +89,11 @@ export const commandHandler = async (client: Client, interaction: Interaction) =
         return false
     }
 
-    log({name: " / ",description:     `[    Run    ] ${interaction.user.tag} => ${interaction.commandName ? "/"+interaction.commandName : ""}/${command?.name}`})
+    log({name: " / ",description:     `[    Run    ] ${interaction.user.tag} => ${interaction.toString()}`})
     command.run(client, interaction).then(() => {
-        log({name: " / ",description: `[ Completed ] ${interaction.user.tag} => ${interaction.commandName ? "/"+interaction.commandName : ""}/${command?.name}`})
+        log({name: " / ",description: `[ Completed ] ${interaction.user.tag} => ${interaction.toString()}`})
     }).catch((err: string) => {
-        catchHandler(" / ")(` ${interaction.user.tag} => ${interaction.commandName ? "/"+interaction.commandName : ""}/${command?.name}`)
+        catchHandler(" / ")(` ${interaction.user.tag} => ${interaction.toString()}`)
         console.log(err)
         interaction.reply(`:x: ${err}`).catch(() => {})
     })

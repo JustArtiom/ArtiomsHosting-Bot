@@ -1,8 +1,8 @@
 import { ActivityType, Client } from "discord.js";
-import { log } from "../../utils/console";
+import { log, warn } from "../../utils/console";
 import chalk from "chalk";
 import config from "../../../config";
-
+import { setTimeout as wait } from "node:timers/promises"
 import ServerCreationChannelsCache from "../../utils/cache/serverCreationChannels";
 import { premiumServers } from "../../utils/cache/premiumServers";
 
@@ -16,9 +16,13 @@ export const event = async (client: Client<true>) => {
 
     if(config.settings.locations.premium.length){
         log({name: "Cache", description: "Updating premium servers cache"});
-        await premiumServers.updateCache();
-        log({name: "Cache", description: "Premium servers cache updated, starting chargin and monitoring servers."});
-        await premiumServers.monitorCharges();
+        await premiumServers.updateCache().then(() => {
+            log({name: "Cache", description: "Premium servers cache updated"});
+            log({name: " $ ", description: "Starting to charge and monitor premium servers"});
+            premiumServers.monitorCharges().catch(() => {});
+        }).catch((err) => {
+            warn({name: "Cache", description: err})
+        });
         premiumServers.setInterval(600_000);
     }
 }
