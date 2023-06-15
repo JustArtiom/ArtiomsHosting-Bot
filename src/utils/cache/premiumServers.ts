@@ -1,5 +1,5 @@
 import config from "../../../config";
-import { userData } from "../../db";
+import { chargesLogs, userData } from "../../db";
 import { catchHandler, log } from "../console";
 import WrapdactylSocket from "../pteroSocketManager";
 import request from "../request";
@@ -125,7 +125,7 @@ class premiumServersClass {
                 
                 if(!user) return
                 if(user?.value.balance <= 0 && ["running", "stopping", "starting"].includes(status)) {
-                    await wait(100)
+                    await wait(100);
                     ws.sendCommand("You have ran out of funds so you will not be able to use this server unless you top-up. Thanks, ArtiomsHosting");
                     ws.power("kill");
                     return
@@ -135,6 +135,12 @@ class premiumServersClass {
                     onlineSince = Date.now();
                     interval = setInterval(async () => {
                         userData.sub(user?.id+".balance", price?.hourly || 0)
+                        chargesLogs.push(user?.id, {
+                            timestamp: Date.now(), 
+                            price: price, 
+                            server_id: server.identifier, 
+                            amount: price?.hourly || 0
+                        })
                         onlineSince = Date.now()
 
                         if((await userData.get(user.id))?.balance || 1 <= 0) {
@@ -155,6 +161,12 @@ class premiumServersClass {
                 const howlong = (Date.now() - onlineSince) / 3_600_000;
                 const cost = howlong * price?.hourly
                 userData.sub(user?.id+".balance", cost)
+                chargesLogs.push(user?.id, {
+                    timestamp: Date.now(), 
+                    price: price, 
+                    server_id: server.identifier, 
+                    amount: price?.hourly || 0
+                })
 
                 onlineSince = undefined
             })
