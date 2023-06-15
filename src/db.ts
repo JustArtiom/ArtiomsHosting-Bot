@@ -9,4 +9,4 @@ export const chargesLogs = db.table<{timestamp: number, price: {
     cpu: number;
     ram: number;
     disk: number;
-}, server_id: string, amount: number}[]>("userData");
+}, server_id: string, amount: number}[]>("chargesLogs");
