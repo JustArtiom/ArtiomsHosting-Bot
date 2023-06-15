@@ -165,7 +165,7 @@ class premiumServersClass {
                     timestamp: Date.now(), 
                     price: price, 
                     server_id: server.identifier, 
-                    amount: price?.hourly || 0
+                    amount: cost
                 })
 
                 onlineSince = undefined
