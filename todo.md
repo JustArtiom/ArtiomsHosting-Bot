@@ -32,7 +32,7 @@
     - [ ] - server
         - [x] - create
         - [x] - create-premium
-        - [ ] - update
+        - [ ] - update-premium
         - [x] - delete
         - [x] - list
     - [ ] - staff 
