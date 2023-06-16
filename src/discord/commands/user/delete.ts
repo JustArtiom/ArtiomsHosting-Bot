@@ -31,8 +31,9 @@ export default <DefaultCommand> {
 
         if(!account_w_servers?.attributes) return interaction.reply({embeds:[
             new EmbedBuilder()
-            .setTitle(":x: Account not found")
+            .setTitle(":x: | Error fetching your ptero account")
             .setColor("Red")
+            .setFooter({text: "If you do have an account, panel might be offline"})
         ]}).catch(catchHandler("Discord"))
         
         let servers: {

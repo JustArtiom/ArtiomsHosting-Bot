@@ -68,8 +68,9 @@ export default <DefaultCommand> {
 
         if(!account_w_servers?.attributes) return interaction.reply({embeds:[
             new EmbedBuilder()
-            .setTitle(":x: Couldnt fetch your server list")
+            .setTitle(":x: | Error fetching your ptero account")
             .setColor("Red")
+            .setFooter({text: "If you do have an account, panel might be offline"})
         ]}).catch(catchHandler("Bot"))
         let servers = account_w_servers.attributes.relationships.servers.data;
 

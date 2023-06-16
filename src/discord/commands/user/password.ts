@@ -36,8 +36,9 @@ export default <DefaultCommand> {
         if(!fetchedUser?.attributes) return interaction.reply({
             embeds: [
                 new EmbedBuilder()
-                .setTitle(":x: | Account not found on the panel")
+                .setTitle(":x: | Error fetching your ptero account")
                 .setColor("Red")
+                .setFooter({text: "If you do have an account, panel might be offline"})
             ]
         })
 

@@ -36,7 +36,7 @@ export default <DefaultCommand> {
             }, 
             {
                 callback: async () => {
-                    const user_servers = await request({url: `/api/application/users/${user?.pteroid}?include=servers`, method: "GET"}).catch(catchHandler("Axios"));
+                    const user_servers = await request({url: `/api/application/users/${user?.pteroid}?include=servers`, method: "GET"}).catch(() => {});
                     serverdata = user_servers?.attributes?.relationships?.servers?.data?.find((x: any) => x.attributes.identifier === server_identifier)
                     return !serverdata
                 },
