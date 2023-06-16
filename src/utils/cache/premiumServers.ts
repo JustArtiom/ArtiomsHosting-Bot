@@ -69,16 +69,7 @@ class premiumServersClass {
     }, interval)
     
 
-    calculatePrice = async (identifier: string | Resources) => {
-        const server_limits: Resources | undefined = typeof identifier === "string" ? 
-        await request({url: `/api/client/servers/${identifier}`}).then(x => ({
-            cpu: x.attributes.limits.cpu,
-            ram: x.attributes.limits.memory,
-            disk: x.attributes.limits.disk,
-        })).catch(() => undefined) :
-        identifier;
-        if(!server_limits) return
-
+    calculatePrice = (server_limits: Resources) => {
         const pricing = config.settings.pricing
         let price = {
             cpu: server_limits.cpu / 100 * pricing.cpu.price,

@@ -99,7 +99,7 @@ export default <DefaultCommand> {
         if(!user || validation1) 
             return interaction.reply(validation1).catch(catchHandler("Bot"));
 
-        const price = await premiumServers.calculatePrice({
+        const price = premiumServers.calculatePrice({
             cpu: cpu * 100, 
             ram: ram * 1024, 
             disk: disk * 1024
@@ -237,7 +237,7 @@ export const createPremiumServer = async ({
         method: "POST",
         data: server_config.default(user.pteroid, server_name || server_type+" server [ Premium ]", config.settings.locations.premium, resources)
     }).then(async (i) => {
-        const price = await premiumServers.calculatePrice(resources);
+        const price = premiumServers.calculatePrice(resources);
         premiumServers.cache.set(i.attributes.identifier,  i.attributes);
         await interaction.reply({
             content: undefined,

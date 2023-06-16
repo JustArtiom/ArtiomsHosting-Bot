@@ -45,7 +45,7 @@ export default <DefaultCommand> {
             ]
         })
 
-        const price = await premiumServers.calculatePrice({
+        const price = premiumServers.calculatePrice({
             cpu: cpu * 100, 
             ram: ram * 1024, 
             disk: disk * 1024

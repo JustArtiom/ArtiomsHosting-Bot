@@ -15,7 +15,7 @@ export const event = async (client: Client<true>) => {
 
     if(config.settings.locations.premium.length){
         log({name: "Cache", description: "Updating premium servers cache"});
-        await premiumServers.updateCache().then(() => {
+        premiumServers.updateCache().then(() => {
             log({name: "Cache", description: "Premium servers cache updated"});
             log({name: " $ ", description: "Starting to charge and monitor premium servers"});
             premiumServers.monitorCharges().catch(() => {});
