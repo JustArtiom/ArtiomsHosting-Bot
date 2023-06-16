@@ -161,7 +161,7 @@ export default <DefaultCommand> {
                 embeds: [
                     new EmbedBuilder()
                     .setTitle("❌ Server creation failed")
-                    .setColor("Blue")
+                    .setColor("Red")
                     .setDescription(`Somthing went wrong and i couldnt create your server. ${
                         err?.response?.data?.errors?.length ? 
                         `\n\n**Error Log:**\n ${err?.response?.data?.errors.map((x: any) => `**${x.status}** - ${x.detail}`)}` : 
