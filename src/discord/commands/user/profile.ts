@@ -30,7 +30,7 @@ export default <DefaultCommand> {
             acc(nodes)
         })
 
-        const premium_servers = !servers.length ? undefined : servers.filter((x: any) => premium_nodes.map((y: any) => y.id).includes(x.node))
+        const premium_servers = !servers ? undefined : servers.filter((x: any) => premium_nodes.map((y: any) => y.id).includes(x.node))
         const premium_servers_resources = !premium_servers ? undefined : await Promise.all(premium_servers.map((x: any) => request({url: `/api/client/servers/${x.identifier}/resources`}).then((y: any) => ({...y.attributes, identifier: x.identifier, limits: x.limits})).catch(() => {})))
 
         const embed = new EmbedBuilder()
