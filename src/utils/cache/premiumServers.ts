@@ -120,9 +120,11 @@ class premiumServersClass {
             ws.on("tokenExpired", () => {
                 error({name: " $ ", description: `${server.identifier} - Token expired`})
             })
-            ws.on("disconnect", () => {
+            ws.on("disconnect", async () => {
                 log({name: " $ ", description: `${server.identifier} - Server Dissconnected`})
                 this.cache.delete(server.identifier)
+                await wait(60_000)
+                ws.connect().catch(() => {})
             });
             ws.on("status", async (status: string) => {
                 const user = (await userData.all()).filter(({value}) => value.pteroid === server.user)[0]

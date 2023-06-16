@@ -158,26 +158,22 @@ class WrapdactylSocket extends EventEmitter {
         return true
     }
 
-    requestStats = () => {
-        if(!this.ws) throw new Error("Wrapdactyl - the websocket is not connected yet")
-        this.ws.send(JSON.stringify({"event": "send stats", "args": [null]}))
-    }
+    requestStats = () => 
+        this.ws?.send(JSON.stringify({"event": "send stats", "args": [null]}))
+    
 
-    requestLogs = () => {
-        if(!this.ws) throw new Error("Wrapdactyl - the websocket is not connected yet")
-        this.ws.send(JSON.stringify({"event": "send logs", "args": [null]}))
-    }
+    requestLogs = () => 
+        this.ws?.send(JSON.stringify({"event": "send logs", "args": [null]}))
+    
 
     power = (power: "start" | "stop" | "restart" | "kill") => {
-        if(!this.ws) throw new Error("Wrapdactyl - the websocket is not connected yet")
         if(!["start", "stop", "restart", "kill"].includes(power.toLowerCase())) throw new Error("Wrapdactyl - Invalid power method");
-        this.ws.send(JSON.stringify({"event": "set state", "args": [power]}))
+        this.ws?.send(JSON.stringify({"event": "set state", "args": [power]}))
     }
     
-    sendCommand = (command: string) => {
-        if(!this.ws) throw new Error("Wrapdactyl - the websocket is not connected yet")
-        this.ws.send(JSON.stringify({"event": "send command", "args": [command]}))
-    }
+    sendCommand = (command: string) => 
+        this.ws?.send(JSON.stringify({"event": "send command", "args": [command]}))
+    
 }
 
 export default WrapdactylSocket;
