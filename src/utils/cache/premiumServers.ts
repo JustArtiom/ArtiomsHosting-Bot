@@ -124,14 +124,14 @@ class premiumServersClass {
                 log({name: " $ ", description: `${server.identifier} - Server Dissconnected`})
                 this.cache.delete(server.identifier)
                 await wait(60_000)
-                ws.connect().catch(() => {})
+                if(this.manualUpdatedCache.get(server.identifier)) ws.connect().catch(() => {})
             });
             ws.on("status", async (status: string) => {
                 const user = (await userData.all()).filter(({value}) => value.pteroid === server.user)[0]
-                const price = await this.calculatePrice({cpu: server.limits.cpu, ram: server.limits.memory, disk: server.limits.disk})
+                const price = this.calculatePrice({cpu: server.limits.cpu, ram: server.limits.memory, disk: server.limits.disk})
                 
                 if(!user) return
-                if(user?.value.balance <= 0 && ["running", "stopping", "starting"].includes(status)) {
+                if(user.value.balance <= 0 && ["running", "stopping", "starting"].includes(status)) {
                     await wait(100);
                     ws.sendCommand("You have ran out of funds so you will not be able to use this server unless you top-up. Thanks, ArtiomsHosting");
                     ws.power("kill");
@@ -171,7 +171,7 @@ class premiumServersClass {
                     }, 3_600_000)
                     return 
                 }
-                if(!onlineSince || !price) return
+                if(!onlineSince) return
                 if(interval) {
                     clearInterval(interval)
                     interval = undefined;
@@ -180,7 +180,7 @@ class premiumServersClass {
                 const howlong = (Date.now() - onlineSince) / 3_600_000;
                 const cost = howlong * price?.hourly
                 userData.sub(user?.id+".balance", cost)
-                if(!userLog?.length) chargesLogs.set(user?.id, [{
+                if(!userLog?.length) chargesLogs.set(user.id, [{
                     timestamp: Date.now(), 
                     price: price, 
                     discord_id: user.id,
@@ -188,7 +188,7 @@ class premiumServersClass {
                     server_id: server.identifier, 
                     amount: cost
                 }])
-                else chargesLogs.set(user?.id, [...userLog, {
+                else chargesLogs.set(user.id, [...userLog, {
                     timestamp: Date.now(), 
                     price: price, 
                     discord_id: user.id,
