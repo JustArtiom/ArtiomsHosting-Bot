@@ -11,7 +11,7 @@ import request from "./request";
 interface serverWebsocketManagerEvents {
     "connect": () => any;
     "authentication": () => any;
-    "error": (data: string) => any;
+    "error": (data: Error) => any;
     "disconnect": () => any;
     "tokenExpired": () => any;
     "daemonMessage": (message: string) => any;
@@ -127,7 +127,9 @@ class WrapdactylSocket extends EventEmitter {
                 for(let arg of message.args) this.emit("error", arg)
             } else console.log(message) // Testing stage
         });
-        this.ws.on('error', (data) => this.emit("error", data.toString()))
+        this.ws.on('error', (data) => {
+            this.emit("error", data);
+        })
         this.ws.on('close', async () => {
             this.ws = undefined
             this.emit("disconnect")

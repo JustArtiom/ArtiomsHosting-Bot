@@ -119,7 +119,7 @@ export default <DefaultCommand> {
                 .setTitle("❓ Are you sure everything is right?")
                 .setColor("Blue")
                 .setDescription(``
-                +`**Server type: \`${type}\`\n`
+                +`**Server type:** \`${type}\`\n`
                 +`**${cpu} Cores:** \`$${price.cpu}\`\n`
                 +`**${ram}GB Ram:** \`$${price.ram}\`\n`
                 +`**${disk}GB Disk:** \`$${price.disk}\`\n`

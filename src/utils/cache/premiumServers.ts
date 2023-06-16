@@ -42,7 +42,7 @@ export interface Resources {
 
 class premiumServersClass {
     constructor(){}
-    manualUpdatedCache = new Map<string, serverAttributes>()
+    connectedServersCache = new Map<string, serverAttributes>()
     cache = new Map<string, serverAttributes>()
 
     updateCache = async () => {
@@ -98,9 +98,10 @@ class premiumServersClass {
 
     monitorCharges = async () => {
         if(!this.cache.size) return error({name: " $ ", description: "Cache is not ready"})
-        const unconnected_servers = Array.from(this.cache.values()).filter(x => !this.manualUpdatedCache.get(x.identifier))
+        const unconnected_servers = Array.from(this.cache.values()).filter(x => !this.connectedServersCache.get(x.identifier))
         
         for(let server of unconnected_servers) {
+            this.connectedServersCache.set(server.identifier, server)
             const ws = new WrapdactylSocket(config.ptero, server.identifier);
 
             let onlineSince: number | undefined = undefined;
@@ -111,21 +112,8 @@ class premiumServersClass {
                     ram: server.limits.memory,
                     disk: server.limits.disk
                 }))?.hourly.toFixed(6)} / h)`})
-                this.manualUpdatedCache.set(server.identifier, server)
             });
-            ws.on("deleted", () => {
-                log({name: " $ ", description: `${server.identifier} - Server Deleted`})
-                this.cache.delete(server.identifier)
-            });
-            ws.on("tokenExpired", () => {
-                error({name: " $ ", description: `${server.identifier} - Token expired`})
-            })
-            ws.on("disconnect", async () => {
-                log({name: " $ ", description: `${server.identifier} - Server Dissconnected`})
-                this.cache.delete(server.identifier)
-                await wait(60_000)
-                if(this.manualUpdatedCache.get(server.identifier)) ws.connect().catch(() => {})
-            });
+
             ws.on("status", async (status: string) => {
                 const user = (await userData.all()).filter(({value}) => value.pteroid === server.user)[0]
                 const price = this.calculatePrice({cpu: server.limits.cpu, ram: server.limits.memory, disk: server.limits.disk})
@@ -143,26 +131,29 @@ class premiumServersClass {
                 if(status === "running") {
                     onlineSince = Date.now();
                     interval = setInterval(async () => {
-                        userData.sub(user?.id+".balance", price?.hourly || 0)
-                        if(!userLog?.length) chargesLogs.set(user?.id, [{
+                        const userr = await userData.get(user.id);
+                        if(!userr) return
+                        
+                        userData.sub(userr.discordid+".balance", price.hourly)
+                        if(!userLog?.length) chargesLogs.set(userr.discordid, [{
                             timestamp: Date.now(), 
                             price: price, 
-                            discord_id: user.id,
-                            ptero_id: user.value.pteroid,
+                            discord_id: userr.discordid,
+                            ptero_id: userr.pteroid,
                             server_id: server.identifier, 
-                            amount: price?.hourly || 0
+                            amount: price.hourly
                         }])
-                        else chargesLogs.set(user?.id, [...userLog, {
+                        else chargesLogs.set(userr.discordid, [...userLog, {
                             timestamp: Date.now(), 
                             price: price, 
-                            discord_id: user.id,
-                            ptero_id: user.value.pteroid,
+                            discord_id: userr.discordid,
+                            ptero_id: userr.pteroid,
                             server_id: server.identifier, 
-                            amount: price?.hourly || 0
+                            amount: price.hourly
                         }])
                         onlineSince = Date.now()
 
-                        if((await userData.get(user.id))?.balance || 1 <= 0) {
+                        if(userr.balance <= 0) {
                             clearInterval(interval)
                             interval=undefined
                             ws.power("kill");
@@ -179,6 +170,7 @@ class premiumServersClass {
 
                 const howlong = (Date.now() - onlineSince) / 3_600_000;
                 const cost = howlong * price?.hourly
+
                 userData.sub(user?.id+".balance", cost)
                 if(!userLog?.length) chargesLogs.set(user.id, [{
                     timestamp: Date.now(), 
@@ -198,7 +190,25 @@ class premiumServersClass {
                 }])
                 onlineSince = undefined
             })
-            ws.connect().catch(catchHandler("WS"));
+
+            ws.on("tokenExpired", () => {
+                error({name: " $ ", description: `${server.identifier} - Token expired`})
+            })
+
+            ws.on("deleted", () => {
+                log({name: " $ ", description: `${server.identifier} - Server Deleted`})
+                this.cache.delete(server.identifier);
+                this.connectedServersCache.delete(server.identifier);
+            });
+
+            ws.on("error", () => {})
+            ws.on("disconnect", async () => {
+                ws.emit("status", "offline");
+                await wait(10_000)
+                if(this.connectedServersCache.get(server.identifier)) ws.connect().catch(() => {})
+            });
+
+            ws.connect().catch(catchHandler(" $ "));
         }
     }
 }
