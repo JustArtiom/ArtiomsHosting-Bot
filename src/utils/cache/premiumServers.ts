@@ -41,7 +41,6 @@ export interface Resources {
 
 
 class premiumServersClass {
-    constructor(){}
     connectedServersCache = new Map<string, serverAttributes>()
     cache = new Map<string, serverAttributes>()
 
@@ -107,11 +106,11 @@ class premiumServersClass {
             let onlineSince: number | undefined = undefined;
             let interval: NodeJS.Timer | undefined;
             ws.on("connect", async() => {
-                log({name: " $ ", description: `${server.identifier} - Connected and charging ($${(await this.calculatePrice({
+                log({name: " $ ", description: `${server.identifier} - Connected and charging ($${(this.calculatePrice({
                     cpu: server.limits.cpu,
                     ram: server.limits.memory,
                     disk: server.limits.disk
-                }))?.hourly.toFixed(6)} / h)`})
+                })).hourly.toFixed(6)} / h)`})
             });
 
             ws.on("status", async (status: string) => {
@@ -126,7 +125,7 @@ class premiumServersClass {
                     return
                 }
 
-                const userLog = await chargesLogs.get(user?.id)
+                const userLog = await chargesLogs.get(user.id)
 
                 if(status === "running") {
                     onlineSince = Date.now();
@@ -171,7 +170,7 @@ class premiumServersClass {
                 const howlong = (Date.now() - onlineSince) / 3_600_000;
                 const cost = howlong * price?.hourly
 
-                userData.sub(user?.id+".balance", cost)
+                userData.sub(user.id+".balance", cost)
                 if(!userLog?.length) chargesLogs.set(user.id, [{
                     timestamp: Date.now(), 
                     price: price, 

@@ -9,7 +9,7 @@ import { convertBytes, convertMsToDHM } from "../../../utils/formatDate";
 import { setTimeout as wait } from "node:timers/promises"
 import { premiumServers } from "../../../utils/cache/premiumServers";
 export default <DefaultCommand> {
-    name: "status",
+    name: "stats",
     description: "Show and manage a server status",
     stringOption: [
         {

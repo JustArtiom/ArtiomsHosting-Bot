@@ -84,15 +84,6 @@ export default <DefaultCommand> {
                         .setColor("Red")
                     ]
                 }
-            }, {
-                callback: () => [cpu, ram, disk].some(x => x < 0.25),
-                interaction: {
-                    embeds: [
-                        new EmbedBuilder()
-                        .setTitle(":x: The ")
-                        .setColor("Red")
-                    ]
-                }
             }
         ]);
 
